@@ -1,4 +1,4 @@
-# ECADAssignment1-P01-Team1
+# ECADBabyShop : ECADAssignment1-P01-Team1
 
 ## Local Development
 
@@ -35,3 +35,11 @@ code .
 
 This runs the app in development mode.\
 Start Apache server and MySQL database, open [http://localhost:8081](http://localhost:8081) to view it in your browser.
+
+
+### Best Practices
+Variable names: $myName
+
+Function names: get_name(), use verb
+
+Classes and file names: OrderDetails.php
