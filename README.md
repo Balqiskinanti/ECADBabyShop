@@ -13,6 +13,8 @@ You need `XAMPP` installed in your machine.
 Use `git clone` command to clone project to the current directory using HTTPS. Execute this in the terminal(command line):
 
 ```console
+cd ..
+cd ..
 cd xampp
 cd htdocs
 git clone https://github.com/Balqiskinanti/ECADBabyShop.git
