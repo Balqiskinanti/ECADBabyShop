@@ -13,7 +13,9 @@ You need `XAMPP` installed in your machine.
 Use `git clone` command to clone project to the current directory using HTTPS. Execute this in the terminal(command line):
 
 ```console
-git clone https://github.com/Balqiskinanti/ECADAssignment1-P01-Team1.git
+cd xampp
+cd htdocs
+git clone https://github.com/Balqiskinanti/ECADBabyShop.git
 
 ```
 
@@ -22,7 +24,7 @@ git clone https://github.com/Balqiskinanti/ECADAssignment1-P01-Team1.git
 Make sure you are in the root directory of the project. You can use `cd` command for Windows.
 
 ```console
-cd ECADAssignment1-P01-Team1
+cd ECADBabyShop
 code .
 
 ``` 
