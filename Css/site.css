@@ -1,0 +1,204 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&family=Poppins&display=swap');
+
+/* Initialise colors and fonts */
+:root{
+  --primary-color: antiquewhite;
+  --secondary-color: #F8F9FA;
+  --app-color: #FFD3A7;
+  --logo-color: #B83B5E;
+  --app-dark: #000;
+
+  --primary-font: 'Poppins', sans-serif;
+  --secondary-font :'Montserrat', sans-serif;
+}
+
+/* Landing background */
+#landing{
+    background-image: url("../Images/Template/Background.PNG");
+    background-size: cover;
+    height: 85vh;
+}
+
+/* Default font */
+body{
+    margin: 0;
+    font-family: var(--primary-font);
+    scrollbar-width: thin; 
+}
+
+/* Scroll style */
+body::-webkit-scrollbar {
+    width: 8px;  
+}
+
+body::-webkit-scrollbar-thumb {
+    background-color: grey; 
+    border-radius: 20px; 
+}
+
+/* Overwrite bootstrap navbar style */
+.navbar{
+    padding-top:1px!important;
+    padding-bottom: 1px!important;
+}
+
+.navbar-dark, #collapsibleNavbar, .nav-link, .navbar-brand, .nav-item{
+    background-color: var(--secondary-color)!important;
+    color: var(--app-dark)!important;
+    font-size:small!important;
+}
+
+.btn-dark{
+    background-color: var(--app-dark)!important;
+    color: var(--secondary-color)!important;
+}
+
+/* Make button more chunky */
+.btn{
+    padding:5px 50px!important;
+    margin:5px;
+}
+
+.links{
+    padding-left: 200px!important;
+}
+
+#brand-name{
+    text-align: center;
+    font-size: small;
+    padding-top: 30px;
+    padding-right: 50px;
+}
+
+/* Call to action styles */
+#cta-text{
+    padding-top: 100px;
+    padding-left: 100px;
+}
+
+#cta-img>img{
+    text-align: center;
+    height: 450px;
+    padding-right: 100px;
+}
+
+#cta-btn{
+    margin: 0;
+    width: 75%;
+    padding: 10px 30px!important;
+}
+
+#cta-btn:hover{
+    background-color: var(--app-color)!important;
+    border: none;
+    color: var(--app-dark)!important;
+}
+
+/* Promotion styles */
+.btn-carausel:hover{
+    color: var(--logo-color)!important;
+}
+
+#promotion-bar{
+    background-color: var(--app-color);
+    text-align: center;
+    padding: 10px 0;
+    font-size: small;
+}
+
+#promotion-list-small-title{
+    text-align: center;
+    font-size: small;
+    padding-top: 30px;
+}
+
+#promotion-list-title, #purchase-steps{
+    padding-top: 20px;
+    text-align: center;
+    font-size: 25px;
+}
+
+.img-wrapper{
+    text-align: center;
+}
+
+.img-fluid{
+    height: 200px!important;
+}
+
+.card-title{
+    font-size: medium!important;
+    margin-bottom: 0;
+}
+
+.price-before{
+    text-decoration:line-through;
+    font-size: 15px!important;
+    color: grey;
+    padding-left: 10px;
+}
+
+.card-text{
+    padding-top:0;
+    font-size: 20px;
+}
+
+/* Purchase steps styles */
+#purchase-steps{
+    background-image: url("../Images/Template/Background.PNG");
+    background-size: cover;
+}
+
+#purchase-steps-container{
+    padding-top: 50px;
+    padding-bottom: 50px;
+}
+
+.steps-title{
+    font-weight: bold;
+    font-size: medium;
+    margin-bottom: 1px;
+}
+
+.steps-desc{
+    font-size: small;
+}
+
+/* Feedback styles */
+.avatar{
+    font-family: var(--secondary-font)!important;
+    border-radius: 1000px!important;
+}
+
+.checked {
+    color: orange;
+}
+
+.feedback-card{
+    background-color:rgb(241, 241, 241); 
+    border: none;
+}
+
+.feedback-wrapper{
+    padding-left: 30px; 
+    padding-top:20px;
+}
+
+/* Media queries */
+@media (max-width: 767.5px) {
+    .links {
+        padding-left: 0px!important;
+    }
+    .btn{
+        margin-left: 0;
+    }
+    #cta-img>img{
+        display: none;
+    }
+    #cta-text{
+        padding-top: 50px;
+        padding-left: 50px;
+    }
+}
+
