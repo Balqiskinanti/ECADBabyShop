@@ -238,6 +238,37 @@ body::-webkit-scrollbar-thumb {
     border: 0;
 }
 
+/* Checkout Shipping */
+.section-header {
+    font-size: 32px;
+    font-weight: bold;
+}
+
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+    color: #797979 !important;
+    opacity: 0.6 !important; /* Firefox */
+  }
+  
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+    color: #797979 !important;
+    opacity: 0.6 !important;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+    color: #797979 !important;
+    opacity: 0.6 !important;
+}
+
+.checkoutRadio {
+    font-size: 20px;
+}
+
+.invertBtn {
+    color: white;
+    font-size: 20px;
+    background-color: #000;
+}
+
 /* Media queries */
 @media (max-width: 767.5px) {
     .links {

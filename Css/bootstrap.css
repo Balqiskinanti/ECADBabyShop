@@ -1910,7 +1910,7 @@ pre code {
 }
 
 .form-control::placeholder {
-  color: #6c757d;
+  color: #0088ff;
   opacity: 1;
 }
 
