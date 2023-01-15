@@ -37,7 +37,7 @@ while($row = $result->fetch_array()){
     // if still offerred but out of stock, out of stock indicator will be shown
     $indicatorHTML = "";
     ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $indicatorHTML = "<div style='text-align: center; background-color: #0ACF83; color: white;'>On Offer</div>" : $indicatorHTML = "";
-    ($row["Quantity"] == 0) ? $indicatorHTML = "<div style='text-align: center; background-color: red; color: white;'>Out of Stock</div>" : $indicatorHTML = $indicatorHTML;
+    ($row["Quantity"] <= 0) ? $indicatorHTML = "<div style='text-align: center; background-color: red; color: white;'>Out of Stock</div>" : $indicatorHTML = $indicatorHTML;
     
     $htmlElement .= '
         <div class="col-md-4 mb-3">
