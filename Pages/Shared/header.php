@@ -1,3 +1,20 @@
+<?php
+// current session & db conn
+include_once("mySQLConn.php");
+
+$qry = "SELECT COUNT(*)
+FROM product 
+WHERE Offered = 1
+AND
+OfferStartDate <= now() AND
+OfferEndDate >= now() AND
+Quantity > 0
+";
+
+$result = $conn->query($qry);
+$count = $result->fetch_array()[0];
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,7 +39,7 @@
 <body>
     <div>
         <div id="promotion-bar">
-            Hurry! 8 Promotions are on going. Grab items at discounted price*
+            Hurry! <?php echo $count?> Promotions are on going. Grab items at discounted price*
         </div>
     
         <div id="navigation-bar">
