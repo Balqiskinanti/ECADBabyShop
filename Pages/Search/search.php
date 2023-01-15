@@ -33,6 +33,14 @@ if(isset($_POST["offer-select"])){
     }
 }
 
+// in stock currently?
+$inStock = "";
+if(isset($_POST["instock-select"])){
+    if($_POST["instock-select"] == 1){
+        $inStock = " AND p.Quantity > 0";
+    }
+}
+
 // min price value
 $minPrice = 0;
 if(isset($_POST["min-price"])){
@@ -68,8 +76,8 @@ INNER JOIN specification s
 ON s.SpecID = ps.SpecID
 WHERE (p.ProductTitle LIKE COALESCE(?, p.ProductTitle) OR p.ProductDesc LIKE COALESCE(?, p.ProductDesc))
 AND  COALESCE(?, c.CategoryID) = c.CategoryID 
-AND COALESCE(?, ps.SpecVal) = ps.SpecVal
-AND (COALESCE(?, p.Offered) = p.Offered" . $validOffer . "ORDER BY p.ProductTitle ASC";
+AND COALESCE(?, ps.SpecVal) = ps.SpecVal" . $inStock .
+" AND (COALESCE(?, p.Offered) = p.Offered" . $validOffer . "ORDER BY p.ProductTitle ASC";
 
 $stmt = $conn->prepare($qry);
 $stmt->bind_param("ssisi", $searchVal, $searchVal, $catVal, $genderVal,  $offered);
@@ -240,18 +248,22 @@ while($row = $result->fetch_array()){
         <!-- Filter Form -->
         <div class="col-sm-3" style="padding-top:10px; border-radius:10px; border:1px solid #d1d5db;">
             <form  method="post" action="" >
+
+                <!-- Categories -->
                 <p style="font-size:small;  margin-bottom: 5px;"><b>Categories</b></p>
                 <select name="cat-select" class="col form-select form-select-lg" aria-label=".form-select-sm example" style="height: 40px; border-radius:5px; border:1px solid #d1d5db;">
                     <option value=0 selected>All</option>
                     <?php echo $catListOptionHTMLElement ?>
                 </select>
 
+                <!-- Gender -->
                 <p style="font-size:small; padding-top: 20px; margin-bottom: 5px;"><b>Gender</b></p>
                 <select name="gender-select" class="col form-select form-select-lg" aria-label=".form-select-sm example" style="height: 40px; border-radius:5px; border:1px solid #d1d5db;">
                     <option value="All" selected>All</option>
                     <?php echo $genderListOptionHTMLElement ?>
                 </select>
 
+                <!-- Price Range -->
                 <p style="font-size:small; padding-top: 20px; margin-bottom: 5px;" ><b>Price Range</b></p>
                 <div class="row">
                     <div class="col-5" style="padding: 0; padding-left: 15px;">
@@ -271,6 +283,7 @@ while($row = $result->fetch_array()){
                     </div>
                 </div>
 
+                <!-- On Offer -->
                 <p style="font-size:small; padding-top: 20px; margin-bottom: 5px;"><b>On Offer?</b></p>
                 <div class="row">
                     <div class="col-sm-3">
@@ -282,6 +295,19 @@ while($row = $result->fetch_array()){
                         <label for="age1">No</label><br>  
                     </div>
                 </div>  
+
+                <!-- In Stock -->
+                <p style="font-size:small; padding-top: 10px; margin-bottom: 5px;"><b>In Stock?</b></p>
+                <div class="row">
+                    <div class="col-sm-3">
+                        <input type="radio" value=1 name="instock-select">
+                        <label for="age1">Yes</label><br>  
+                    </div>
+                    <div class="col-sm-3">
+                        <input type="radio" value=0 name="instock-select">
+                        <label for="age1">No</label><br>  
+                    </div>
+                </div> 
 
                 <div class="row">
                     <div class="col-12">
