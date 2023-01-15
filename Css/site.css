@@ -185,6 +185,59 @@ body::-webkit-scrollbar-thumb {
     padding-top:20px;
 }
 
+.disabled{
+    pointer-events: none;
+    background-color: grey;
+}
+
+/* Search */
+.form{
+    position: relative;
+}
+
+.form .fa-search{
+    position: absolute;
+    top:15px;
+    left: 20px;
+    color: #9ca3af;
+}
+
+.form span{
+    position: absolute;
+    right: 17px;
+    top: 13px;
+    padding: 2px;
+    border-left: 1px solid #d1d5db;
+}
+
+.left-pan{
+    padding-left: 7px;
+}
+
+.left-pan i{
+   padding-left: 10px;
+}
+
+.form-input{
+    margin-top: 50px;
+    height: 50px;
+    text-indent: 33px;
+    border-radius: 10px;
+}
+
+.gender-select-her:hover{
+    border: 2px solid #B83B5E;
+}
+.gender-select-him:hover{
+    border: 2px solid darkblue;
+}
+.currencyinput {
+    border: 1px inset #ccc;
+}
+.currencyinput input {
+    border: 0;
+}
+
 /* Media queries */
 @media (max-width: 767.5px) {
     .links {
