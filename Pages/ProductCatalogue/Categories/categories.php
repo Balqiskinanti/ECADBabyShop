@@ -1,9 +1,9 @@
 <?php
-// current session & db conn
+// db conn
 include_once("mySQLConn.php");
 
 // get all categories
-$qry = "SELECT * FROM category";
+$qry = "SELECT * FROM category ORDER BY CatName ASC";
 $result = $conn->query($qry);
 
 // close connection
