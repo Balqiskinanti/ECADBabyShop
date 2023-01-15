@@ -1,15 +1,17 @@
 <?php
-// current session & db conn
+// db conn
 include_once("mySQLConn.php");
 
 // get all products from category $cid
 $cid = $_GET["cid"];
+$catName = $_GET["catName"];
 
 $qry = "SELECT p.*
 From catproduct cp 
 INNER JOIN product p 
 ON cp.ProductID=p.ProductID
-WHERE cp.CategoryID=?";
+WHERE cp.CategoryID=?
+ORDER BY p.ProductTitle ASC";
 
 $stmt = $conn->prepare($qry);
 $stmt->bind_param("i",$cid);
@@ -25,9 +27,10 @@ $htmlElement = "";
 while($row = $result->fetch_array()){
     $imgPath = $row["ProductImage"];
     $title = $row["ProductTitle"];
+    
     $now = new DateTime('now');
     ($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
-    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $price =  "$" . $row["OfferedPrice"] : $price = $row["Price"];
+    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $price =  "$" . $row["OfferedPrice"] : $price = "$" . $row["Price"];
     ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "$" . $row["Price"] : $oldPrice = "";
 
     // indicators : offer & out of stock
@@ -38,7 +41,7 @@ while($row = $result->fetch_array()){
     
     $htmlElement .= '
         <div class="col-md-4 mb-3">
-            <a href="productDetails.php?pid=' . $row["ProductID"] . '&' . 'productName=' . $title . '" style="text-decoration:none;color:black;">
+            <a href="productDetails.php?pid=' . $row["ProductID"] . '&' . 'productName=' . $title . '&' . 'cid=' . $cid . '&' . 'catName=' . $catName . '" style="text-decoration:none;color:black;">
                 <div class="card h-100">
                     <div class="img-wrapper">
                         <img class="img-fluid" alt="100%x280" src="./Images/Products/' . $imgPath .'">' . 
@@ -48,14 +51,13 @@ while($row = $result->fetch_array()){
                     . '</div>
                     <div class="card-body">
                         <h4 class="card-title"><b>' . $title . '</b></h4>
-                        <p class="card-text" style="padding-top:10px;">$ ' . $price . '<span class="price-before">' . $oldPrice . '</span></p>
+                        <p class="card-text" style="padding-top:10px;">' . $price . '<span class="price-before">' . $oldPrice . '</span></p>
                     </div>
                 </div>
             </a>
         </div>
     ';
 }
-
 ?>
 
 <div style="padding-top:50px;">
