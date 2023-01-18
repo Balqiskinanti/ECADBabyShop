@@ -31,47 +31,46 @@ $stmt->close();
 if ($result->num_rows > 0)
 {
 	$row = $result->fetch_array();
-	$hashed_pwd = $row["Password"];
+	$dbPwd = $row["Password"];
 
-	if (password_verify($pwd, $hashed_pwd) == true)
-	{
-		$checkLogin = true;
+    if ($pwd == $dbPwd)
+    {
+        // Save user's info in session variables
+        $_SESSION["ShopperName"] = $row["Name"];
+        $_SESSION["ShopperID"] = $row["ShopperID"];
 
-		// Save user's info in session variables
-		$_SESSION["ShopperName"] = $row["Name"];
-		$_SESSION["ShopperID"] = $row["ShopperID"];
+        // Get active shopping cart
+        $qry = "SELECT sc.ShopCartID, COUNT(sci.ProductID) AS NumItems FROM ShopCart sc LEFT JOIN ShopCartItem sci ON sc.ShopCartID=sci.ShopCartID WHERE sc.ShopperID=? AND sc.OrderPlaced=0";
 
-		// Get active shopping cart
-		$qry = "SELECT sc.ShopCartID, COUNT(sci.ProductID) AS NumItems FROM ShopCart sc LEFT JOIN ShopCartItem sci ON sc.ShopCartID=sci.ShopCartID WHERE sc.ShopperID=? AND sc.OrderPlaced=0";
+        $stmt = $conn->prepare($qry);
+        $stmt -> bind_param("s", $_SESSION["ShopperID"]);
 
-		$stmt = $conn->prepare($qry);
-		$stmt -> bind_param("s", $_SESSION["ShopperID"]);
+        $stmt->execute();
 
-		$stmt->execute();
+        $result = $stmt->get_result();
+        $stmt->close();
+        $conn->close();
 
-		$result = $stmt->get_result();
-		$stmt->close();
-		$conn->close();
+        if ($result->num_rows > 0)
+        {
+            $row = $result->fetch_array();
 
-		if ($result->num_rows > 0)
-		{
-			$row = $result->fetch_array();
+            if ($row["NumItems"] > 0)
+            {
+                $_SESSION["Cart"] = $row["ShopCartID"];
+                $_SESSION["NumCartItem"] = $row["NumItems"];
+            }
+        }
 
-			if ($row["NumItems"] > 0)
-			{
-				$_SESSION["Cart"] = $row["ShopCartID"];
-				$_SESSION["NumCartItem"] = $row["NumItems"];
-			}
-		}
-
-		// Redirect to home page
-		header("Location: ./index.php");
-		exit;
-	}
-	else
-	{
-		echo "<h3 style='color:red'>Invalid Login Credentials</h3>";
-	}
+        // Redirect to home page
+        header("Location: ../../index.php");
+        exit;
+    }
+    
+}
+else
+{
+    echo "<h3 style='color:red'>Invalid Login Credentials</h3>";
 }
 
 // Include the Page Layout footer
