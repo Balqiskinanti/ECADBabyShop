@@ -1,7 +1,6 @@
 <?php 
-session_start(); // Detect the current session
-include("./Pages/Shared/header.php"); // Include the Page Layout header
-
+include("header.php"); // Include the Page Layout header
+session_start();
 include_once("mySQLConn.php");
 
 //Check if user logged in 
@@ -150,5 +149,5 @@ if (isset($_POST["pwd1"])) {
 
 </div> <!-- Closing container -->
 <?php 
-include("./Pages/Shared/footer.php"); // Include the Page Layout footer
+include("footer.php"); // Include the Page Layout footer
 ?>

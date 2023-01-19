@@ -1,5 +1,4 @@
 <?php
-
     // <!-- Navbar links -->
     $content1 = "<div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
         <ul class='navbar-nav'>
