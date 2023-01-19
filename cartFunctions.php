@@ -24,7 +24,7 @@ function addItem() {
 	// TO DO 1
 	// Write code to implement: if a user clicks on "Add to Cart" button, insert/update the 
 	// database and also the session variable for counting number of items in shopping cart.
-	include_once("mysql_conn.php"); // Establish database connection handle: $conn
+	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 	// Check if a shopping cart exist, if not create a new shopping cart
 
 	if (! isset($_SESSION["Cart"]))
@@ -104,7 +104,7 @@ function updateItem() {
 	$pid = $_POST["product_id"];
 	$quantity = $_POST["quantity"];
 
-	include_once("mysql_conn.php");
+	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
 	$qry = "UPDATE ShopCartItem SET Quantity = ? WHERE ProductID = ? AND ShopCartID = ?";
 	$stmt = $conn->prepare($qry);
@@ -128,7 +128,7 @@ function removeItem() {
 	$pid = $_POST["product_id"];
 	$cartid = $_SESSION["Cart"];
 
-	include_once("mysql_conn.php");
+	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
 	$qry = "DELETE FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
 	$stmt = $conn->prepare($qry);

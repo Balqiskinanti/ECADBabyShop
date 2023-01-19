@@ -2,7 +2,7 @@
 // Detect the current session
 session_start(); 
 // Include the Page Layout header
-include("./Pages/Shared/header.php"); 
+include("header.php"); 
 ?>
 <script type="text/javascript">
 function validateForm()
@@ -114,5 +114,5 @@ function validateForm()
 </div>
 <?php 
 // Include the Page Layout footer
-include("./Pages/Shared/footer.php"); 
+include("footer.php"); 
 ?>

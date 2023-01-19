@@ -6,13 +6,13 @@ include("header.php"); // Include the Page Layout header
 
 if (! isset($_SESSION["ShopperID"])) { // Check if user logged in 
 	// redirect to login page if the session variable shopperid is not set
-	header ("Location: ../../login.php");
+	header ("Location: login.php");
 	exit;
 }
 
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
-	include_once("mysql_conn.php");
+	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT *, (Price * Quantity) AS Total FROM ShopCartItem WHERE ShopCartID = ?";
@@ -107,10 +107,10 @@ if (isset($_SESSION["Cart"])) {
 		echo "<input type = 'image' style = 'float:right;' src = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
 
-		foreach ($_SESSION["Items"] as $key => $value)
-		{
-			echo $key . " - " . $value["name"] . "<br>";
-		}
+		// foreach ($_SESSION["Items"] as $key => $value)
+		// {
+		// 	echo $key . " - " . $value["name"] . "<br>";
+		// }
 	}
 	else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
