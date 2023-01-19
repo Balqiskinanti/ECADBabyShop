@@ -2,7 +2,7 @@
 // Detect the current session
 session_start();
 // header
-include("./Pages/Shared/header.php"); 
+include("header.php"); 
 ?>
 
 <!-- Create a centrally located container -->
@@ -41,5 +41,5 @@ include("./Pages/Shared/header.php");
 
 <?php
 // Include the Page Layout footer
-include("./Pages/Shared/footer.php");
+include("footer.php");
 ?>

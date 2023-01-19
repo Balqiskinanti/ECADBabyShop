@@ -43,7 +43,7 @@ $count = $result->fetch_array()[0];
         </div>
     
         <div id="navigation-bar">
-            <?php include("./Pages/Shared/navbar.php"); ?>
+            <?php include("navbar.php"); ?>
         </div>
 
             

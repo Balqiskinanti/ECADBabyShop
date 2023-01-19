@@ -23,7 +23,7 @@
         <div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
             <ul class='navbar-nav'>
                 <li class='nav-item'>
-                    <a type='button' class='nav-link btn btn-outline-secondary' href='../ECADBabyShop/Pages/ShoppingCart/shoppingCart.php'>cartNum / totalAmt <img src='../ECADBabyShop/Images/Login/shopping-bag.png' width='30' height='30'></a>
+                    <a type='button' class='nav-link btn btn-outline-secondary' href='shoppingCart.php'>cartNum / totalAmt <img src='../ECADBabyShop/Images/Login/shopping-bag.png' width='30' height='30'></a>
                 </li>
                 <li class='nav-item'>
                     <a type='button' class='nav-link btn' href='#'>$_SESSION[ShopperName] <img src='../ECADBabyShop/Images/Login/user.png' width='30' height='30'></a>
