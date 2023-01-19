@@ -14,6 +14,7 @@
     ";
 
 
+
     if(isset($_SESSION["ShopperName"])) { 
         //Display a greeting message, Change Password and logout links 
         //after shopper has logged in.
@@ -28,7 +29,7 @@
                     <a type='button' class='nav-link btn' href='#'>$_SESSION[ShopperName] <img src='../ECADBabyShop/Images/Login/user.png' width='30' height='30'></a>
                     <ul class='navbar-nav'>
                         <li class='nav-item'><a class='nav-link' href='#'>Change Password</a></li>
-                        <li class='nav-item'><a class='nav-link' href='#'>Update Profile</a></li>
+                        <li class='nav-item'><a class='nav-link' href='editProfile.php'>Update Profile</a></li>
                         <li class='nav-item'><a class='nav-link' href='logout.php'>Log Out</a></li>
                     </ul>
                 </li>
@@ -52,7 +53,7 @@
     </a>
     
     <!-- Toggler/collapsibe Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavBar">
         <span class="navbar-toggler-icon"></span>
     </button>
     
@@ -68,5 +69,9 @@
         </ul>
     </div>
 
-    <?php echo $content1;?>
+    <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
+        <ul class="navbar-nav">
+        <?php echo $content1; ?>
+        </ul>
+    </div>
 </nav>

@@ -20,6 +20,7 @@ $qry = "SELECT ShopperID, Name, Password FROM Shopper WHERE Email = ?";
 $stmt = $conn->prepare($qry);
 $stmt -> bind_param("s", $email);
 
+
 // execute the query
 $stmt ->execute();
 
