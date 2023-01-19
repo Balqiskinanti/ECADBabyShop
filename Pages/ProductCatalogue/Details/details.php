@@ -87,7 +87,7 @@ while($row = $result->fetch_array()){
                     </p>
                     <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
                     <input class="form-control ' . $disabled . '" style="background-color:white!important;" id="disabledInput" type="number" placeholder="0" min="0" max="10">
-                    <a type="button" class="nav-link btn btn-dark m-0 ' . $disabled .'" style="margin-top: 10px!important;" href="#">Add to Cart</a>
+                    <button type="submit" class="nav-link btn btn-dark m-0 ' . $disabled .'" style="margin-top: 10px!important;" href="#">Add to Cart</button>
                 </div>
             </div>
             <div class="col-sm-3">
@@ -107,7 +107,13 @@ while($row = $result->fetch_array()){
 <div style="padding-top:50px;">
     <div class="container-fluid">
         <div class="row">
-            <?php echo $htmlElement ?>
+        <?php
+        echo "<form action='cartFunctions.php' method='post'>";
+        echo "<input type='hidden' name='action' value='add' />";
+        echo "<input type='hidden' name='product_id' value='$pid' />";
+        echo $htmlElement;
+        echo "</form>";
+        ?>
         </div>
     </div>
 </div>
