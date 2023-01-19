@@ -1,7 +1,7 @@
 <?php 
 session_start(); 
 // header
-include("./Pages/Shared/header.php"); 
+include("header.php"); 
 ?>
 
 <?php
@@ -12,5 +12,5 @@ include("./Pages/ProductCatalogue/Details/details.php");
 
 <?php 
 // footer
-include("./Pages/Shared/footer.php"); 
+include("footer.php"); 
 ?>

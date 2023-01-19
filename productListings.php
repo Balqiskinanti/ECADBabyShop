@@ -1,6 +1,6 @@
 <?php 
 // header
-include("./Pages/Shared/header.php"); 
+include("header.php"); 
 ?>
 
 <?php
@@ -11,5 +11,5 @@ include("./Pages/ProductCatalogue/Listings/listings.php");
 
 <?php 
 // footer
-include("./Pages/Shared/footer.php"); 
+include("footer.php"); 
 ?>
