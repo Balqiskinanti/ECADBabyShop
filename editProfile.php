@@ -103,10 +103,10 @@ if (isset($_POST["pwd1"])) {
     $new_email = $_POST['email'];
 	$new_pwd = $_POST['pwd1'];
 	
-	// To Do 3: Hash the default password
-	$hashed_pwd = password_hash($new_pwd, PASSWORD_DEFAULT);
+	//Hash the default password
+	//$hashed_pwd = password_hash($new_pwd, PASSWORD_DEFAULT);
 	
-	// To Do 4: Update the new password hash
+	//Update the new password hash
   //  include_once("mySQLConn.php");
 
     $query = "SELECT * FROM Shopper WHERE Email = ?";
@@ -120,7 +120,7 @@ if (isset($_POST["pwd1"])) {
         $qry = "UPDATE Shopper SET Name=?,Address=?, Country=?, Phone=?, Email=?,  Password=? WHERE ShopperID=?";
         $stmt = $conn->prepare($qry);
         // "s" - string, "j" - integer
-        $stmt->bind_param("ssssssi",$new_name, $new_addr, $new_country, $new_hp, $new_email, $hashed_pwd, $_SESSION["ShopperID"]);
+        $stmt->bind_param("ssssssi",$new_name, $new_addr, $new_country, $new_hp, $new_email, $new_pwd, $_SESSION["ShopperID"]);
         if ($stmt->execute()) {
         echo "<p>Your profile has been updated successfully.</p>";
         }
