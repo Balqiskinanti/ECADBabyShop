@@ -8,7 +8,10 @@ $address = $_POST["address"];
 $country = $_POST["country"];
 $phone = $_POST["phone"];
 $email = $_POST["email"];
-$password = password_hash($_POST["password"], PASSWORD_DEFAULT);
+$password = $_POST["password"];
+//password_hash($_POST["password"], PASSWORD_DEFAULT);
+$pwdqn = $_POST["pwdqn"];
+$answer = $_POST["answer"];
 
 
 $query = "SELECT * FROM Shopper WHERE Email = ?";
@@ -19,10 +22,10 @@ $result1 = $stmt->get_result();
 $stmt->close();
 
 if ($result1->num_rows === 0) {
-    $qry ="INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password)
-       VALUES (?, ?, ?, ?, ?, ?)";
+    $qry ="INSERT INTO Shopper (Name, Address, Country, Phone, Email, Password, PwdQuestion, PwdAnswer)
+       VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 $stmt = $conn->prepare($qry);
-$stmt->bind_param("ssssss", $name, $address, $country, $phone, $email, $password);
+$stmt->bind_param("ssssssss", $name, $address, $country, $phone, $email, $password, $pwdqn, $answer);
 
 if ($stmt->execute()) {
 
