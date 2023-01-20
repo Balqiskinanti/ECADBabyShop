@@ -43,6 +43,7 @@
                     <ul class='navbar-nav'>
                         <li class='nav-item'><a class='nav-link' href='#'>Change Password</a></li>
                         <li class='nav-item'><a class='nav-link' href='editProfile.php'>Update Profile</a></li>
+                        <li class='nav-item'><a class='nav-link' href='memberRating.php'>Write Feedback ✍️</a></li>
                         <li class='nav-item'><a class='nav-link' href='logout.php'>Log Out</a></li>
                     </ul>
                 </li>

@@ -17,7 +17,7 @@ p.Quantity > 0
 $result = $conn->query($qry);
 
 // close connection
-$conn->close();
+//$conn->close();
 
 // categories containers 
 $htmlElement = "";

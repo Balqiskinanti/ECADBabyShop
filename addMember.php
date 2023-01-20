@@ -57,9 +57,9 @@ else{
 
 
 
-include("./Pages/Shared/header.php");
+include("header.php");
 echo $Message;
-include("./Pages/Shared/footer.php");
+include("footer.php");
 
 $stmt->close();
 $conn->close();

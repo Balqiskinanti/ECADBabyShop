@@ -11,7 +11,8 @@ include("header.php");
 include("./Pages/Main/cta.php");
 include("./Pages/Main/promotionListCarousel.php");
 include("./Pages/Main/purchaseSteps.php");
-include("./Pages/Main/feedback.php");
+include("displayFeedback.php");
+//include("./Pages/Main/feedback.php");
 ?>
 
 <?php 
