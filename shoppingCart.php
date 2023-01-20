@@ -30,6 +30,7 @@ if (isset($_SESSION["Cart"])) {
 		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class = 'cart-header'>"; // Start of table's header section
 		echo "<tr>"; // Start of header row
+		echo "<th width = '150px'> </th>";
 		echo "<th width = '250px'> </th>";
 		echo "<th width = '500px'> </th>"; 
 		echo "<th>&nbsp;</th>";
@@ -92,10 +93,12 @@ if (isset($_SESSION["Cart"])) {
 			$formattedPrice = number_format($row["Price"], 2);
 			$formattedOfferPrice = number_format($row["OfferedPrice"], 2);
 
+			echo "<tr>";
+			echo "<td> </td>";
 			echo "<td> <img src='./Images/Products/$row[ProductImage]'> </td>";
-			echo "<td> $row[Name] 
+			echo "<td style='vertical-align: inherit'> $row[Name] 
 			<br>
-			$$formattedOfferPrice <s>$$formattedPrice</s>
+			<span class='card-text'>$$formattedOfferPrice</span> <span class='price-before'>$$formattedPrice</span>
 			<br>";
 			echo "<div class='container' style='display:flex;padding-left:0px;'>";
 			echo "<select name = 'quantity' onChange = 'this.form.submit()'>";
@@ -114,6 +117,9 @@ if (isset($_SESSION["Cart"])) {
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
 			echo "<button type = 'submit' style='border:none;background-color:white;'> | Delete </button>";
 			echo "</form>";
+
+			echo "</td>";
+			echo "</tr>";
 			echo "</div>";
 
 		}
@@ -130,7 +136,6 @@ if (isset($_SESSION["Cart"])) {
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		echo "<button style = 'float:right;' class='invertBtn' >Checkout</button>";
 		echo "</form></p>";
-
 		// foreach ($_SESSION["Items"] as $key => $value)
 		// {
 		// 	echo $key . " - " . $value["name"] . "<br>";
