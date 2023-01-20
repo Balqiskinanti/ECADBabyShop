@@ -30,10 +30,8 @@ if (isset($_SESSION["Cart"])) {
 		echo "<table class='table table-hover'>"; // Start of table
 		echo "<thead class = 'cart-header'>"; // Start of table's header section
 		echo "<tr>"; // Start of header row
-		echo "<th width = '250px'>Item</th>";
-		echo "<th width = '90px'>Price (S$)</th>"; 
-		echo "<th width = '60px'>Quantity</th>"; 	
-		echo "<th width = '120px'>Total (S$)</th>";
+		echo "<th width = '250px'> </th>";
+		echo "<th width = '500px'> </th>"; 
 		echo "<th>&nbsp;</th>";
 		echo "</tr>"; // End of header row
 		echo "</thead>"; // End of table's header section
@@ -48,16 +46,59 @@ if (isset($_SESSION["Cart"])) {
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) 
 		{
-			echo "<tr>";
-			echo "<td style = 'width:50%'>$row[Name] <br>";
-			echo "<b>Product ID: $row[ProductID]</b></td>";
+			// echo "<tr>";
+			// echo "<td style = 'width:50%'>$row[Name] <br>";
+			// echo "<b>Product ID: $row[ProductID]</b></td>";
+			// $formattedPrice = number_format($row["Price"], 2);
+
+			// echo "<td>$formattedPrice</td>";
+			// echo "<td>";
+			// echo "<form action = 'cartFunctions.php' method = 'post'>";
+			// echo "<select name = 'quantity' onChange = 'this.form.submit()'>";
+
+			// for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
+			// {
+			// 	if ($i == $row["sciQty"]) 
+			// 		// Select drop-down list item with value same as the quantity of purchase
+			// 		$selected = "selected";
+			// 	else
+			// 		$selected = "";
+			// 	echo "<option value ='$i' $selected>$i</option>";
+			// }
+			// echo "</select>";
+
+			// echo "<input type = 'hidden' name = 'action' value = 'update' />";
+			// echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
+			// echo "</form>";
+			// echo "</td>";
+
+			// $formattedTotal = number_format($row["Total"], 2);
+			// echo "<td>$formattedTotal </td>";
+			// echo "<td>"; // Column for remove item from shopping cart
+			// echo "<form action = 'cartFunctions.php' method = 'post'>";
+			// echo "<input type = 'hidden' name = 'action' value = 'remove' />";
+			// echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
+			// echo "<input type = 'image' src='images/trash-can.png' title = 'Remove Item' />";
+			// echo "</form>";
+			// echo "</td>";
+			// echo "</tr>";
+
+			// // To Do 6 (Practical 5):
+		    // // Store the shopping cart items in session variable as an associate array
+			// $_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"]);
+
+			// // Accumulate the running sub-total
+			// $subTotal += $row["Total"];
 			$formattedPrice = number_format($row["Price"], 2);
+			$formattedOfferPrice = number_format($row["OfferedPrice"], 2);
 
-			echo "<td>$formattedPrice</td>";
-			echo "<td>";
-			echo "<form action = 'cartFunctions.php' method = 'post'>";
+			echo "<td> <img src='./Images/Products/$row[ProductImage]'> </td>";
+			echo "<td> $row[Name] 
+			<br>
+			$$formattedOfferPrice <s>$$formattedPrice</s>
+			<br>";
+			echo "<div class='container' style='display:flex;padding-left:0px;'>";
 			echo "<select name = 'quantity' onChange = 'this.form.submit()'>";
-
 			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
 			{
 				if ($i == $row["sciQty"]) 
@@ -68,37 +109,20 @@ if (isset($_SESSION["Cart"])) {
 				echo "<option value ='$i' $selected>$i</option>";
 			}
 			echo "</select>";
-
-			echo "<input type = 'hidden' name = 'action' value = 'update' />";
-			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
-			echo "</form>";
-			echo "</td>";
-
-			$formattedTotal = number_format($row["Total"], 2);
-			echo "<td>$formattedTotal </td>";
-			echo "<td>"; // Column for remove item from shopping cart
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
 			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
-			echo "<input type = 'image' src='images/trash-can.png' title = 'Remove Item' />";
+			echo "<button type = 'submit' style='border:none;background-color:white;'> | Delete </button>";
 			echo "</form>";
-			echo "</td>";
-			echo "</tr>";
+			echo "</div>";
 
-			// To Do 6 (Practical 5):
-		    // Store the shopping cart items in session variable as an associate array
-			$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"]);
-
-			// Accumulate the running sub-total
-			$subTotal += $row["Total"];
 		}
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-				
 		// To Do 4 (Practical 4): 
 		// Display the subtotal at the end of the shopping cart
-		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal = S$" . number_format($subTotal, 2);
+		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal: S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
 						   
