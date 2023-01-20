@@ -1,6 +1,6 @@
 <?php 
-include("header.php"); // Include the Page Layout header
 session_start();
+include("header.php"); // Include the Page Layout header
 include_once("mySQLConn.php");
 
 //Check if user logged in 
@@ -28,7 +28,7 @@ function validateForm()
 <div style="width:80%; margin:auto;">
 <form name="changePwd" method="post" onsubmit="return validateForm()">
     <div class="form-group row">
-        <div class="col-sm-9 offset-sm-3">
+        <div class="col-sm-9 offset-sm-3" style="padding-top:30px">
             <span class="page-title">Change Profile</span>
         </div>
     </div>
@@ -85,7 +85,7 @@ function validateForm()
     </div>
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit">Update</button>
+            <button type="submit" class='btn btn-dark'>Update</button>
         </div>
     </div>
 </form>

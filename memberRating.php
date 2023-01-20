@@ -9,7 +9,7 @@ include("header.php");
 <div style="width:80%; margin:auto;">
 <form name="register" action="submit_feedback.php" method="post">
     <div class="form-group row">
-        <div class="col-sm-9 offset-sm-3">
+        <div class="col-sm-9 offset-sm-3" style="padding-top:30px">
             <span class="page-title">Member's Feedback</span>
         </div>
     </div>
@@ -49,7 +49,7 @@ include("header.php");
     
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit">Submit</button>
+            <button type="submit" class='btn btn-dark'>Submit</button>
         </div>
     </div>
 </form>
