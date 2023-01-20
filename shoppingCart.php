@@ -13,7 +13,8 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
-	// To Do 1 (Practical 4): 
+
+
 	// Retrieve from database and display shopping cart in a table
 	$qry = "SELECT *, (p.Price * sci.Quantity) AS Total, sci.Quantity AS sciQty, p.Quantity AS pQty FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
 	$stmt = $conn->prepare($qry);
@@ -107,7 +108,8 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
-		// To Do 4 (Practical 4): 
+
+		
 		// Display the subtotal at the end of the shopping cart
 		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal: S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
