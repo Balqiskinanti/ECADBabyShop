@@ -1,6 +1,12 @@
 <?php 
-// header
-include("./Pages/Shared/header.php"); 
+session_start();
+include("header.php"); // header
+//include_once("checkoutProcess.php");
+if (! isset($_SESSION["ShopperID"])) { // Check if user logged in 
+	// redirect to login page if the session variable shopperid is not set
+	header ("Location: login.php");
+	exit;
+}
 ?>
 <div class="container">
     <h1>Shipping & Billing</h1> <br>
@@ -9,7 +15,7 @@ include("./Pages/Shared/header.php");
     Colour in figma is #18A0FB. 
     link class does not seem to be coloured not sure what it does. -->
     <div class="col-10">
-        <form name="checkoutShippingInfo" method="post" action="#"> <!-- Reminder add in action php later. Add a onSubmit="something" to handle validation. -->
+        <form name="checkoutShippingInfo" method="post" action="checkoutReview.php"> <!-- Add a onSubmit="something" to handle validation. -->
             <div class="form-group row">
                 <div class="col-sm-10">
                     <h3><b>Shipping</b></h3>
@@ -17,7 +23,7 @@ include("./Pages/Shared/header.php");
             </div>
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="shippingName" name="shippingName" placeholder="Shipping Name *" required>
+                    <input class="form-control" type="text" id="shippingName" name="shippingName" placeholder="Shipping Name *" > <!-- required -->
                 </div>
                 <div class="col-sm-4">
                     <input class="form-control" type="text" id="shippingTel" name="shippingTel" placeholder="Shipping Phone Number">
@@ -25,26 +31,26 @@ include("./Pages/Shared/header.php");
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingEmail" name="shippingEmail" placeholder="Shipping Email *" required>
+                    <input class="form-control" type="text" id="shippingEmail" name="shippingEmail" placeholder="Shipping Email *" > <!-- required -->
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingCountry" name="shippingCountry" placeholder="Shipping Country *" required>
+                    <input class="form-control" type="text" id="shippingCountry" name="shippingCountry" placeholder="Shipping Country *" > <!-- required -->
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingAddress" name="shippingAddress" placeholder="Shipping Address *" required>
+                    <input class="form-control" type="text" id="shippingAddress" name="shippingAddress" placeholder="Shipping Address *" > <!-- required -->
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-5">
-                    <input type="radio" id="deliveryNormal" name="deliveryChoice" value="#" required>
+                    <input type="radio" id="deliveryNormal" name="deliveryChoice" value="#" > <!-- required -->
                     <label for="deliveryNormal" class="checkoutRadio">Normal Delivery (2 Days)</label>
                 </div>
                 <div class="col-sm-5">
-                    <input type="radio" id="deliveryExpress" name="deliveryChoice" value="#" required>
+                    <input type="radio" id="deliveryExpress" name="deliveryChoice" value="#" > <!-- required -->
                     <label for="deliveryExpress" class="checkoutRadio">Express Delivery (24 Hrs)</label>
                 </div>
             </div>
@@ -57,7 +63,7 @@ include("./Pages/Shared/header.php");
             </div>
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="billingName" name="billingName" placeholder="Billing Name *" required>
+                    <input class="form-control" type="text" id="billingName" name="billingName" placeholder="Billing Name *" > <!-- required -->
                 </div>
                 <div class="col-sm-4">
                     <input class="form-control" type="text" id="billingTel" name="billingTel" placeholder="Billing Phone Number">
@@ -65,17 +71,17 @@ include("./Pages/Shared/header.php");
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingEmail" name="billingEmail" placeholder="Billing Email *" required>
+                    <input class="form-control" type="text" id="billingEmail" name="billingEmail" placeholder="Billing Email *" > <!-- required -->
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingCountry" name="billingCountry" placeholder="Billing Country *" required>
+                    <input class="form-control" type="text" id="billingCountry" name="billingCountry" placeholder="Billing Country *" > <!-- required -->
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingAddress" name="billingAddress" placeholder="Billing Address *" required>
+                    <input class="form-control" type="text" id="billingAddress" name="billingAddress" placeholder="Billing Address *" > <!-- required -->
                 </div>
             </div>
             <div class="form-group row">
@@ -89,5 +95,5 @@ include("./Pages/Shared/header.php");
 
 <?php 
 // footer
-include("./Pages/Shared/footer.php"); 
+include("footer.php"); 
 ?>
