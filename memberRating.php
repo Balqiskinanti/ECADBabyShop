@@ -31,11 +31,11 @@ include("header.php");
         <label class="col-sm-3 col-form-label" for="rating">Rating:</label>
         <div class="col-sm-9">
             <select name="rating" id="rating">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
+                <option value="1">1 star</option>
+                <option value="2">2 star</option>
+                <option value="3">3 star</option>
+                <option value="4">4 star</option>
+                <option value="5">5 star</option>
             </select>
         </div>
     </div>
