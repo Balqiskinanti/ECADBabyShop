@@ -37,11 +37,11 @@ if (isset($_SESSION["Cart"])) {
 		echo "</tr>"; // End of header row
 		echo "</thead>"; // End of table's header section
 
-		// To Do 5 (Practical 5):
+
 		// Declare an array to store the shopping cart items in session variable 
 		$_SESSION["Items"] = array();
 			
-		// To Do 3 (Practical 4): 
+
 		// Display the shopping cart content
 		$subTotal = 0; // Declare a variable to compute subtotal before tax
 		echo "<tbody>"; // Start of table's body section
@@ -90,6 +90,7 @@ if (isset($_SESSION["Cart"])) {
 
 			// // Accumulate the running sub-total
 			// $subTotal += $row["Total"];
+
 			$formattedPrice = number_format($row["Price"], 2);
 			$formattedOfferPrice = number_format($row["OfferedPrice"], 2);
 
@@ -97,9 +98,17 @@ if (isset($_SESSION["Cart"])) {
 			echo "<td> </td>";
 			echo "<td> <img src='./Images/Products/$row[ProductImage]'> </td>";
 			echo "<td style='vertical-align: inherit'> $row[Name] 
-			<br>
-			<span class='card-text'>$$formattedOfferPrice</span> <span class='price-before'>$$formattedPrice</span>
 			<br>";
+			if ($row["OfferedPrice"] != NULL)
+			{
+				echo"<span class='card-text'>$$formattedOfferPrice</span> <span class='price-before'>$$formattedPrice</span>
+				<br>";
+			}
+			else
+			{
+				echo"<span class='card-text'>$$formattedPrice</span>
+				<br>";
+			}
 			echo "<div class='container' style='display:flex;padding-left:0px;'>";
 			echo "<select name = 'quantity' onChange = 'this.form.submit()'>";
 			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
@@ -122,6 +131,10 @@ if (isset($_SESSION["Cart"])) {
 			echo "</tr>";
 			echo "</div>";
 
+			$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"]);
+
+			// Accumulate the running sub-total
+			$subTotal += $row["Total"];
 		}
 		echo "</tbody>"; // End of table's body section
 		echo "</table>"; // End of table
@@ -131,15 +144,12 @@ if (isset($_SESSION["Cart"])) {
 		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal: S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
-						   
-														 
+		
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		echo "<button style = 'float:right;' class='invertBtn' >Checkout</button>";
 		echo "</form></p>";
-		// foreach ($_SESSION["Items"] as $key => $value)
-		// {
-		// 	echo $key . " - " . $value["name"] . "<br>";
-		// }
+
+
 	}
 	else {
 		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
