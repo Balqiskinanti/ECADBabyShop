@@ -15,7 +15,7 @@ if (isset($_SESSION["Cart"])) {
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 	// To Do 1 (Practical 4): 
 	// Retrieve from database and display shopping cart in a table
-	$qry = "SELECT *, (p.Price * sci.Quantity) AS Total FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
+	$qry = "SELECT *, (p.Price * sci.Quantity) AS Total, sci.Quantity AS sciQty, p.Quantity AS pQty FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("i", $_SESSION["Cart"]);
 	$stmt->execute();
@@ -58,9 +58,9 @@ if (isset($_SESSION["Cart"])) {
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
 			echo "<select name = 'quantity' onChange = 'this.form.submit()'>";
 
-			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10	
+			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
 			{
-				if ($i == $row["Quantity"]) 
+				if ($i == $row["sciQty"]) 
 					// Select drop-down list item with value same as the quantity of purchase
 					$selected = "selected";
 				else
@@ -87,7 +87,7 @@ if (isset($_SESSION["Cart"])) {
 
 			// To Do 6 (Practical 5):
 		    // Store the shopping cart items in session variable as an associate array
-			$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["Quantity"], "image" => $row["ProductImage"]);
+			$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"]);
 
 			// Accumulate the running sub-total
 			$subTotal += $row["Total"];
@@ -101,8 +101,8 @@ if (isset($_SESSION["Cart"])) {
 		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal = S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
-		// To Do 7 (Practical 5):
-		// Add PayPal Checkout button on the shopping cart page
+						   
+														 
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		echo "<button style = 'float:right;' class='invertBtn' >Checkout</button>";
 		echo "</form></p>";
