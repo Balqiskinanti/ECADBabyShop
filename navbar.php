@@ -1,5 +1,5 @@
 <?php
-    // <!-- Navbar links -->
+    //  Navbar links 
     $content1 = "<div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
         <ul class='navbar-nav'>
             <li class='nav-item'>
@@ -11,7 +11,6 @@
         </ul>
     </div>
     ";
-
 
 
     if(isset($_SESSION["ShopperName"])) { 
@@ -58,12 +57,12 @@
 
 <nav class="navbar navbar-expand-md bg-light navbar-light sticky-top">
     <!-- Logo -->
-    <a class="navbar-brand" href="index.php" >
+    <a class="navbar-brand" href="index.php">
         <img src="Images/Template/LongLogo.PNG" alt="" style="height: 50px;" >
     </a>
     
     <!-- Toggler/collapsibe Button -->
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavBar">
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar">
         <span class="navbar-toggler-icon"></span>
     </button>
     
@@ -79,9 +78,5 @@
         </ul>
     </div>
 
-    <div class="collapse navbar-collapse justify-content-end" id="collapsibleNavbar">
-        <ul class="navbar-nav">
-        <?php echo $content1; ?>
-        </ul>
-    </div>
+    <?php echo $content1;?>
 </nav>
