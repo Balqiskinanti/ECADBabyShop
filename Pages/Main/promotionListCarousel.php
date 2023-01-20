@@ -31,9 +31,9 @@ while($row = $result->fetch_array()){
 
     $now = new DateTime('now');
     ($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
-    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $price =  "$" . $row["OfferedPrice"] : $price = "$" . $row["Price"];
-    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "$" . $row["Price"] : $oldPrice = "";
-
+    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $price =  "$" . number_format($row["OfferedPrice"],2) : $price = "$" . number_format($row["Price"],2);
+    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "$" . number_format($row["Price"],2) : $oldPrice = "";
+    
     // indicators : offer & out of stock
     // if still offerred but out of stock, out of stock indicator will be shown
     $indicatorHTML = "";
