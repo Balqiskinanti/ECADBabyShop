@@ -76,7 +76,6 @@ function addItem() {
 		$addNewItem = $quantity;
 	}
 
-  	$conn->close();
   	// Update session variable used for counting number of items in the shopping cart.
 	if (isset($_SESSION["NumCartItem"]))
 	{
@@ -86,6 +85,52 @@ function addItem() {
 	{
 		$_SESSION["NumCartItem"] = $quantity;
 	}
+
+	$qry = "SELECT *, CASE WHEN p.Offered = 1 THEN (p.Price - p.OfferedPrice) END AS Discount FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ? AND sci.ProductID = ?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("ii", $_SESSION["Cart"], $pid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+
+	$row = $result->fetch_array();
+
+	$now = new DateTime('now');
+	($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
+
+	if ($isOfferStillOnGoing)
+	{
+		$basePrice = $row["Price"] - $row["Discount"];
+		$subTotal = $row["Quantity"] * $basePrice;
+
+		if (isset($_SESSION["SubTotal"]))
+		{
+			$_SESSION["SubTotal"] += $subTotal;
+		}
+		else
+		{
+			$_SESSION["SubTotal"] = $subTotal;
+		}
+	}
+	else
+	{
+		$subTotal = $row["Price"] * $row["Quantity"];
+
+		if (isset($_SESSION["SubTotal"]))
+		{
+			$_SESSION["SubTotal"] += $subTotal;
+		}
+		else
+		{
+			$_SESSION["SubTotal"] = $subTotal;
+		}
+	}
+
+
+	// Update session variable used for counting subtotal in the shopping cart.
+
+
+	$conn->close();
 	// Redirect shopper to shopping cart page
 	header("Location: shoppingCart.php");
 	exit;
@@ -112,7 +157,24 @@ function updateItem() {
 	$stmt->bind_param("iii", $quantity, $pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
+
+	// Update $_SESSION["NumCartItems"] when quantity is changed in shopper's active cart
+	$qry = "SELECT * FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("ii", $pid, $cartid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
 	$conn->close();
+
+	$row = $result->fetch_array();
+
+	if ($quantity > $row["Quantity"])
+		$_SESSION["NumCartItems"] -= $quantity;
+	else
+		$_SESSION["NumCartItems"] += $quantity;
+
+	
 	header("Location: shoppingCart.php");
 	exit;
 }
@@ -146,9 +208,11 @@ function removeItem() {
 	$stmt->bind_param("ii", $pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
-
-
 	$conn->close();
+
+	// unset($_SESSION["NumCartItem"]);
+	// unset($_SESSION["SubTotal"]);
+
 	header("Location: shoppingCart.php");
 }		
 ?>
