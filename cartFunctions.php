@@ -194,7 +194,11 @@ function removeItem() {
 
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
-	$qry = "SELECT Quantity FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
+	$qry = "SELECT *,sci.Quantity AS sciQty, p.Quantity AS pQty,
+			CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN (p.OfferedPrice * sci.Quantity) 
+			ELSE (p.Price * sci.Quantity) END AS Total FROM ShopCartItem AS sci 
+			INNER JOIN product AS p ON sci.ProductID = p.ProductID 
+			WHERE p.ProductID = ? AND sci.ShopCartID = ?;";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $pid, $cartid);
 	$stmt->execute();
@@ -202,8 +206,9 @@ function removeItem() {
 	$stmt->close();
 
 	$row = $result->fetch_array();
-	$_SESSION["NumCartItem"] -= $row["Quantity"];
-	$_SESSION["SubTotal"] -= $row["Price"];
+	//$_SESSION["ROWPRICE"] = $row["Price"];
+	$_SESSION["NumCartItem"] -= $row["sciQty"];
+	$_SESSION["SubTotal"] -= $row["Total"];
 
 	$qry = "DELETE FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
 	$stmt = $conn->prepare($qry);

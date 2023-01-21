@@ -3,10 +3,10 @@
 session_start();
 
 // Include the PHP file that establishes the database connection handle: $conn
-include_once("../../mySQLConn.php");
+include_once("mySQLConn.php");
 
 // Include the Page Layout header
-include("../../Pages/Shared/header.php"); 
+include("header.php"); 
 
 // Reading inputs entered in previous page
 $email = $_POST["email"];
@@ -41,11 +41,13 @@ if ($result->num_rows > 0)
         $_SESSION["ShopperID"] = $row["ShopperID"];
 
         // Get active shopping cart
-        $qry = "SELECT sc.ShopCartID, SUM(sci.Quantity) as TotalQuantity 
-        FROM shopcartitem AS sci 
-        INNER JOIN shopcart AS sc ON sc.ShopCartID = sci.ShopCartID 
-        WHERE sc.ShopCartID = ? AND sc.OrderPlaced = 0 
-        GROUP BY sc.ShopCartID";
+        $qry = "SELECT *, sci.Quantity AS sciQty, 
+                CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) 
+                THEN (p.OfferedPrice * sci.Quantity) ELSE (p.Price * sci.Quantity) END AS Total 
+                FROM shopcartitem AS sci 
+                INNER JOIN shopcart AS sc ON sc.ShopCartID = sci.ShopCartID 
+                INNER JOIN product AS p ON p.ProductID = sci.ProductID
+                WHERE sc.ShopperID = ? AND sc.OrderPlaced = 0;";
 
         $stmt = $conn->prepare($qry);
         $stmt -> bind_param("s", $_SESSION["ShopperID"]);
@@ -58,17 +60,16 @@ if ($result->num_rows > 0)
 
         if ($result->num_rows > 0)
         {
-            $row = $result->fetch_array();
-
-            if ($row["TotalQuantity"] > 0)
+            while ($row = $result->fetch_array())
             {
                 $_SESSION["Cart"] = $row["ShopCartID"];
-                $_SESSION["NumCartItem"] = $row["TotalQuantity"];
+                $_SESSION["SubTotal"] += $row["Total"] ;
+                $_SESSION["NumCartItem"] += $row["sciQty"];
             }
         }
 
         // Redirect to home page
-        header("Location: ../../index.php");
+        header("Location: index.php");
         exit;
     }
     
@@ -79,5 +80,5 @@ else
 }
 
 // Include the Page Layout footer
-include("./Pages/Shared/footer.php");
+include("footer.php");
 ?>

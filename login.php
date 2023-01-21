@@ -8,7 +8,7 @@ include("header.php");
 <!-- Create a centrally located container -->
 <div style="width:80%; margin:auto;">
 <!-- Create a HTML Form within the container -->
-<form action="./Pages/Login/checkLogin.php" method="post">
+<form action="checkLogin.php" method="post">
 <!-- 1st row - Header Row -->
 <div id="brand-name">
     EBS
