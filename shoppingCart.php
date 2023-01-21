@@ -10,6 +10,7 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 	exit;
 }
 
+
 echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
@@ -103,7 +104,15 @@ if (isset($_SESSION["Cart"])) {
 			echo "</tr>";
 			echo "</div>";
 
-			$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"]);
+			if ($isOfferStillOnGoing)
+			{
+				$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"], "isOfferStillOnGoing" => true);
+			}
+			else
+			{
+				$_SESSION["Items"] [] = array("productId" => $row["ProductID"], "name" => $row["Name"], "price" => $row["Price"], "quantity" => $row["sciQty"], "image" => $row["ProductImage"], "offeredPrice" => $row["OfferedPrice"], "isOfferStillOnGoing" => false);
+			}
+			
 
 			// Accumulate the running sub-total
 			$subTotal += $row["Total"];

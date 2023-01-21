@@ -38,7 +38,7 @@ if(isset($_SESSION["Cart"]))
 			$img = "./Images/Products/$value[image]";
 			echo "<tr>";
 			echo "<td><img src='$img'></td>";
-			if ($value["offeredPrice"] != null)
+			if ($value["isOfferStillOnGoing"])
 			{
 				$basePrice = $value['price'] * $value['quantity'];
 				$discountPrice = $value['offeredPrice'] * $value['quantity'];

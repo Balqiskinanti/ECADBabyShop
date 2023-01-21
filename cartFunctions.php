@@ -95,7 +95,6 @@ function addItem() {
 	if ($row["Discount"] != NULL)
 	{
 		// To store discount to be used at checkout.
-		$_SESSION["Discount"] = $row["Discount"] * $row["sciQty"];
 		$basePrice = $row["Price"] - $row["Discount"];
 		$subTotal = $row["sciQty"] * $basePrice;
 
@@ -122,8 +121,6 @@ function addItem() {
 		}
 	}
 
-	// Update session variable used for counting subtotal in the shopping cart.
-	//$_SESSION["Discount"] = $discount;
 
 	$conn->close();
 	// Redirect shopper to shopping cart page

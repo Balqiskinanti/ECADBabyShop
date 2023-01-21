@@ -9,41 +9,31 @@ include_once("mySQLConn.php");
 // Shipping Info Data
 //$_SESSION["ShippingInfo"] = array($_POST["shippingName"], $_POST["shippingTel"] , $_POST["shippingEmail"] , $_POST["shippingCountry"], $_POST["shippingAddress"], $_POST["deliveryChoice"], $_POST["billingName"], $_POST["billingTel"], $_POST["billingEmail"], $_POST["billingCountry"], $_POST["billingAddress"] );
 
-//
-$paypal_data = '';
-$price = 0;
-// Get all items from the shopping cart, concatenate to the variable $paypal_data
-// $_SESSION['Items'] is an associative array
-foreach($_SESSION['Items'] as $key=>$item) {
-    $paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
-    $paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
-    $paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
-    $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
-
-    $price += $item["price"];
-    //echo "<br>";
-}
-
-
 // Compute GST Rate
 $qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
 $result = $conn->query($qry);
 $row = mysqli_fetch_assoc($result);
-$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * $_SESSION['SubTotal'],2);
+$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $_SESSION['Discount']),2);
 
-echo "<p>$_SESSION[Tax]</p>";
 // Compute Shipping Charge
 $_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][5];
-echo "<p>$_SESSION[ShipCharge]</p>";
-// Comupute Discount
 
-// Amt to be paid
-echo "<p>Price: $price</p>";
-echo "<p>Discount: $_SESSION[Discount]</p>";
-echo "<p>Discount: $_SESSION[Qty]</p>";
-echo "<p>Total: $_SESSION[SubTotal]</p>";
+$paypal_data = '';
+foreach($_SESSION['Items'] as $key=>$item) {
+    $paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
+    //$paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
+    if($item["isOfferStillOnGoing"])
+    {
+        $paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["offeredPrice"]);
+    }
+    else
+    {
+        $paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
+    }
+    $paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
+    $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
+}
 
-//Data to be sent to PayPal
 $padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
             '&PAYMENTACTION=Sale'.
             '&ALLOWNOTE=1'.
@@ -57,8 +47,8 @@ $padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
             '&BRANDNAME='.urlencode("ECADBabyStore").
             $paypal_data.				
             '&RETURNURL='.urlencode($PayPalReturnURL ).
-            '&CANCELURL='.urlencode($PayPalCancelURL);	
-    
+            '&CANCELURL='.urlencode($PayPalCancelURL);
+
 //We need to execute the "SetExpressCheckOut" method to obtain paypal token
 $httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, 
                                     $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
@@ -79,11 +69,13 @@ if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING"
                 $httpParsedResponseAr["TOKEN"].'';
     header('Location: '.$paypalurl);
 
-    echo "Passed";
 }
-else
+else 
 {
-    echo "Failed";
+    //Show error message
+    echo "<div style='color:red'><b>SetExpressCheckOut failed : </b>".
+          urldecode($httpParsedResponseAr["L_LONGMESSAGE0"])."</div>";
+    echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
 }
 
 //Paypal redirects back to this page using ReturnURL, We should receive TOKEN and Payer ID
