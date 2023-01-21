@@ -1,6 +1,4 @@
 <?php 
-// Include the code that contains shopping cart's functions.
-// Current session is detected in "cartFunctions.php, hence need not start session here.
 session_start();
 include("header.php"); // Include the Page Layout header
 
@@ -63,6 +61,16 @@ if(isset($_SESSION["Cart"]))
 		}
 
 		echo "</table>"; // End of Table
+		
+
+		$subTotal = number_format($_SESSION["SubTotal"], 2);
+		echo "<div class='checkoutPayPal'>";
+
+		echo "<p class=''>Subtotal: $$subTotal</p>";
+		echo "<form method = 'post' action = 'checkoutProcess.php'>";
+		echo "<input type = 'image' style='width:100%' src = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
+		echo "</form></p>";
+		echo"</div>";		
 		echo "</div>"; // End of responsive table
 	}
 	else 
