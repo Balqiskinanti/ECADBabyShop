@@ -13,17 +13,16 @@ if (! isset($_SESSION["ShopperID"])) {
     }
 ?>
 
-<script type="text/javascript">
-function validateForm()
-{
-    // Check if password matched
-	if (document.changePwd.pwd1.value != document.changePwd.pwd2.value) {
- 	    alert("Passwords not matched!");
-        return false;   // cancel submission
-    }
-    return true;  // No error found
-}
-</script>
+
+<?php 
+    $shopperID = $_SESSION["ShopperID"];
+    $stmt = mysqli_prepare($conn, "SELECT Name, Address, Country, Phone, Email FROM shopper where ShopperID=?");
+    mysqli_stmt_bind_param($stmt, "i", $shopperID);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $name, $address, $country, $phone, $email);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+?>
 <!-- Create a cenrally located container -->
 <div style="width:80%; margin:auto;">
 <form name="changePwd" method="post" onsubmit="return validateForm()">
@@ -36,26 +35,26 @@ function validateForm()
         <label class="col-sm-3 col-form-label" for="name">Name:</label>
         <div class="col-sm-9">
             <input class="form-control" name="name" id="name" 
-                   type="text" required /> (required)
+                   type="text" required value="<?php echo $name; ?>" /> (required)
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-3 col-form-label" for="address">Address:</label>
         <div class="col-sm-9">
-            <textarea class="form-control" name="address" id="address"
-                      cols="25" rows="4" ></textarea>
+            <input class="form-control" name="address" id="address"
+                      cols="25" rows="4" value="<?php echo $address; ?>" />
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-3 col-form-label" for="country">Country:</label>
         <div class="col-sm-9">
-            <input class="form-control" name="country" id="country" type="text" />
+            <input class="form-control" name="country" id="country" type="text" value="<?php echo $country; ?>" />
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-3 col-form-label" for="phone">Phone:</label>
         <div class="col-sm-9">
-            <input class="form-control" name="phone" id="phone" type="text" />
+            <input class="form-control" name="phone" id="phone" type="text" value="<?php echo $phone; ?>"/>
         </div>
     </div>
     <div class="form-group row">
@@ -63,26 +62,10 @@ function validateForm()
             Email Address:</label>
         <div class="col-sm-9">
             <input class="form-control" name="email" id="email" 
-                   type="email" required /> (required)
+                   type="email" required value="<?php echo $email; ?>" /> (required)
         </div>
     </div>
 
-    <div class="form-group row">
-        <label class="col-sm-3 col-form-label" for="pwd1">
-         New Password:</label>
-        <div class="col-sm-9">
-            <input class="form-control" name="pwd1" id="pwd1" 
-                   type="password" required />
-        </div>
-    </div>
-    <div class="form-group row">
-        <label class="col-sm-3 col-form-label" for="pwd2">
-         Retype Password:</label>
-        <div class="col-sm-9">
-            <input class="form-control" name="pwd2" id="pwd2"
-                   type="password" required />
-        </div>
-    </div>
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
             <button type="submit" class='btn btn-dark'>Update</button>
@@ -100,7 +83,6 @@ if (isset($_POST["pwd1"])) {
     $new_country = $_POST['country'];
     $new_hp = $_POST['phone'];
     $new_email = $_POST['email'];
-	$new_pwd = $_POST['pwd1'];
 	
 	//Hash the default password
 	//$hashed_pwd = password_hash($new_pwd, PASSWORD_DEFAULT);
@@ -119,7 +101,7 @@ if (isset($_POST["pwd1"])) {
         $qry = "UPDATE Shopper SET Name=?,Address=?, Country=?, Phone=?, Email=?,  Password=? WHERE ShopperID=?";
         $stmt = $conn->prepare($qry);
         // "s" - string, "j" - integer
-        $stmt->bind_param("ssssssi",$new_name, $new_addr, $new_country, $new_hp, $new_email, $new_pwd, $_SESSION["ShopperID"]);
+        $stmt->bind_param("ssssssi",$new_name, $new_addr, $new_country, $new_hp, $new_email, $_SESSION["ShopperID"]);
         if ($stmt->execute()) {
         echo "<p>Your profile has been updated successfully.</p>";
         }
