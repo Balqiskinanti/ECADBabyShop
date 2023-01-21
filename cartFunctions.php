@@ -13,7 +13,6 @@ if (isset($_POST['action'])) {
             break;
     }
 }
-
 function addItem() {
 	// Check if user logged in 
 	if (! isset($_SESSION["ShopperID"])) {
@@ -84,7 +83,7 @@ function addItem() {
 		$_SESSION["NumCartItem"] = $quantity;
 	}
 
-	$qry = "SELECT *, CASE WHEN p.Offered = 1 THEN (p.Price - p.OfferedPrice) END AS Discount, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ? AND sci.ProductID = ?";
+	$qry = "SELECT *, CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN (p.Price - p.OfferedPrice) END AS Discount, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ? AND sci.ProductID = ?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $_SESSION["Cart"], $pid);
 	$stmt->execute();
@@ -93,10 +92,7 @@ function addItem() {
 
 	$row = $result->fetch_array();
 
-	$now = new DateTime('now');
-	($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
-
-	if ($isOfferStillOnGoing)
+	if ($row["Discount"] != NULL)
 	{
 		// To store discount to be used at checkout.
 		$_SESSION["Discount"] = $row["Discount"] * $row["sciQty"];
@@ -114,7 +110,8 @@ function addItem() {
 	}
 	else
 	{
-		$subTotal = $row["Price"] * $row["sciQty"];
+		$subTotal = $row["Price"] * $row["Quantity"];
+		$_SESSION["Test2"] = $_SESSION["SubTotal"];
 
 		if (isset($_SESSION["SubTotal"]))
 		{
@@ -126,6 +123,7 @@ function addItem() {
 		}
 	}
 
+	$_SESSION["Test"] = $_SESSION["SubTotal"];
 
 	// Update session variable used for counting subtotal in the shopping cart.
 	//$_SESSION["Discount"] = $discount;
@@ -202,6 +200,7 @@ function removeItem() {
 
 	$row = $result->fetch_array();
 	$_SESSION["NumCartItem"] -= $row["Quantity"];
+	$_SESSION["SubTotal"] -= $row["Price"];
 
 	$qry = "DELETE FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
 	$stmt = $conn->prepare($qry);
@@ -213,6 +212,6 @@ function removeItem() {
 	unset($_SESSION["NumCartItem"]);
 	unset($_SESSION["SubTotal"]);
 
-	header("Location: shoppingCart.php");
-}		
+	header ("Location: shoppingCart.php");
+}
 ?>
