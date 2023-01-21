@@ -64,6 +64,7 @@ function addItem() {
 		$stmt->bind_param("iii", $quantity, $_SESSION["Cart"], $pid);
 		$stmt->execute();
 		$stmt->close();
+		$addNewItem = $quantity;
 	}
 	else // Selected product has yet to be added into the shopping cart
 	{
@@ -72,7 +73,7 @@ function addItem() {
 		$stmt->bind_param("iiii", $_SESSION["Cart"], $pid, $quantity, $pid);
 		$stmt->execute();
 		$stmt->close();
-		$addNewItem = 1;
+		$addNewItem = $quantity;
 	}
 
   	$conn->close();
@@ -83,7 +84,7 @@ function addItem() {
 	}
 	else
 	{
-		$_SESSION["NumCartItem"] = 1;
+		$_SESSION["NumCartItem"] = $quantity;
 	}
 	// Redirect shopper to shopping cart page
 	header("Location: shoppingCart.php");
@@ -130,15 +131,24 @@ function removeItem() {
 
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
+	$qry = "SELECT Quantity FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("ii", $pid, $cartid);
+	$stmt->execute();
+	$result = $stmt->get_result();
+	$stmt->close();
+
+	$row = $result->fetch_array();
+	$_SESSION["NumCartItem"] -= $row["Quantity"];
+
 	$qry = "DELETE FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $pid, $cartid);
 	$stmt->execute();
 	$stmt->close();
+
+
 	$conn->close();
-
-	$_SESSION["NumCartItem"] -= 1;
-
 	header("Location: shoppingCart.php");
 }		
 ?>
