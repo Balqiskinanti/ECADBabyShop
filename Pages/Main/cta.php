@@ -1,3 +1,10 @@
+<?php 
+$button = '<a  type="button" class="btn btn-dark" href="../ECADBabyShop/login.php" id="cta-btn">Get Started</a>';
+if(isset($_SESSION["ShopperName"])){
+    $button = '<a  type="button" class="btn btn-dark" href="../ECADBabyShop/productCategories.php" id="cta-btn">Shop Now</a>';
+}
+?>
+
 <div id="landing">
     <div id="brand-name">
         EBS
@@ -15,7 +22,7 @@
                         EBS delivers high quality, age-appropriate, and <br/>
                         comfortable new-born items straight to your door.
                     </p>
-                    <a  type="button" class="btn btn-dark" href="#" id="cta-btn">Get Started</a>
+                    <?php echo $button ?>
                 </div>
                 <div class="col-sm-6" id="cta-img">
                     <img src="./Images/Template/Baby.png" alt="Baby image">

@@ -3,13 +3,10 @@ session_start(); // Detect the current session
 include("header.php"); // Include the Page Layout header
 ?>
 <!-- Create a cenrally located container -->
-<div style="width:80%; margin:auto;">
+<div style="width:80%; margin:auto;height:60vh;">
 <form action="" method="post">
-	<div class="form-group row">
-		<div class="col-sm-9 offset-sm-3">
-			<span class="page-title">Forget Password</span>
-		</div>
-	</div>
+	<div id="brand-name">EBS</div>
+    <div id="promotion-list-title" style="padding-bottom:30px;">FORGET PASSWORD</div>	
 	<div class="form-group row">
 		<label class="col-sm-3 col-form-label" for="eMail">
          Email Address:</label>
@@ -48,7 +45,7 @@ include("header.php"); // Include the Page Layout header
 
 	<div class="form-group row">      
 		<div class="col-sm-9 offset-sm-3">
-			<button type="submit" name="submit">Submit</button>
+			<button type="submit" name="submit" class='btn btn-dark'>Submit</button>
 		</div>
 	</div>
 </form>

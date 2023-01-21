@@ -14,9 +14,8 @@ echo "<div id='myShopCart' style='margin:auto'>"; // Start a container
 if (isset($_SESSION["Cart"])) {
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
-
 	// Retrieve from database and display shopping cart in a table
-	$qry = "SELECT *, (p.Price * sci.Quantity) AS Total, sci.Quantity AS sciQty, p.Quantity AS pQty FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
+	$qry = "SELECT *, CASE WHEN p.Offered = 1 THEN (p.OfferedPrice * sci.Quantity) ELSE (p.Price * sci.Quantity) END AS Total, sci.Quantity AS sciQty, p.Quantity AS pQty FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("i", $_SESSION["Cart"]);
 	$stmt->execute();
@@ -50,15 +49,21 @@ if (isset($_SESSION["Cart"])) {
 		{
 
 			$formattedPrice = number_format($row["Price"], 2);
-			$formattedOfferPrice = number_format($row["OfferedPrice"], 2);
+			$formattedTotalPrice = number_format($row["Total"], 2);
 
 			echo "<tr>";
 			echo "<td> </td>";
 			echo "<td> <img src='./Images/Products/$row[ProductImage]'> </td>";
 			echo "<td style='vertical-align: inherit'> <b>$row[Name] </b> 
 			<br>";
-			if ($row["OfferedPrice"] != NULL)
+
+			$now = new DateTime('now');
+			($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
+
+			if ($row["Offered"] == 1 && $isOfferStillOnGoing)
 			{
+				$formattedOfferPrice = number_format($row["OfferedPrice"], 2);
+				
 				echo"<span class='card-text'>$$formattedOfferPrice</span> <span class='price-before'>$$formattedPrice</span>
 				<br>";
 			}
@@ -94,7 +99,7 @@ if (isset($_SESSION["Cart"])) {
 			echo "</td>";
 			
 			echo "<td style='vertical-align: bottom'>";
-			echo "Total: <b>$$row[Total]</b>";
+			echo "Total: <b>$$formattedTotalPrice</b>";
 			echo "</td>";
 
 			echo "</tr>";
@@ -122,12 +127,18 @@ if (isset($_SESSION["Cart"])) {
 
 	}
 	else {
-		echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
+		echo "<div class='col-12 text-center'>";
+		echo "<img src='./Images/ShoppingCart/empty-cart.jpg' style = 'height:600px;'>";
+		echo "<h2>There are no items in your cart presently.</h2>";
+		echo "</div>";
 	}
 	$conn->close(); // Close database connection
 }
 else {
-	echo "<h3 style='text-align:center; color:red;'>Empty shopping cart!</h3>";
+	echo "<div class='col-12 text-center'>";
+	echo "<img src='./Images/ShoppingCart/empty-cart.jpg' style = 'height:600px;'>";
+	echo "<h2>There are no items in your cart presently.</h2>";
+	echo "</div>";
 }
 echo "</div>"; // End of container
 include("footer.php"); // Include the Page Layout footer

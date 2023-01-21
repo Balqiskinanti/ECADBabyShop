@@ -281,6 +281,17 @@ body::-webkit-scrollbar-thumb {
     
 }
 
+.review-item {
+    height: 20rem;
+    background: #4DC7A0;
+    padding: 1rem;
+}
+
+.owl-carousel {
+    padding-top: 30px;
+}
+
+
 /* Media queries */
 @media (max-width: 767.5px) {
     .links {

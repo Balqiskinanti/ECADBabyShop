@@ -37,11 +37,9 @@ function validateForm()
 <div style="width:80%; margin:auto;">
 <form name="register" action="addMember.php" method="post" 
       onsubmit="return validateForm()">
-    <div class="form-group row">
-        <div class="col-sm-9 offset-sm-3">
-            <span class="page-title">Membership Registration</span>
-        </div>
-    </div>
+      <div id="brand-name">EBS</div>
+      <div id="promotion-list-title" style="padding-bottom:30px;">MEMBERSHIP REGISTRATION</div>
+
     <div class="form-group row">
         <label class="col-sm-3 col-form-label" for="name">Name:</label>
         <div class="col-sm-9">
@@ -107,7 +105,7 @@ function validateForm()
     </div>
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit">Register</button>
+            <button type="submit" class='btn btn-dark'>Register</button>
         </div>
     </div>
 </form>
