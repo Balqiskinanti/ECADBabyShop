@@ -97,11 +97,9 @@ if (isset($_SESSION["Cart"])) {
 			echo "</form>";
 
 			echo "</td>";
-			
 			echo "<td style='vertical-align: bottom'>";
 			echo "Total: <b>$$formattedTotalPrice</b>";
 			echo "</td>";
-
 			echo "</tr>";
 			echo "</div>";
 

@@ -110,8 +110,7 @@ function addItem() {
 	}
 	else
 	{
-		$subTotal = $row["Price"] * $row["Quantity"];
-		$_SESSION["Test2"] = $_SESSION["SubTotal"];
+		$subTotal = $row["Price"] * $row["sciQty"];
 
 		if (isset($_SESSION["SubTotal"]))
 		{
@@ -122,8 +121,6 @@ function addItem() {
 			$_SESSION["SubTotal"] = $subTotal;
 		}
 	}
-
-	$_SESSION["Test"] = $_SESSION["SubTotal"];
 
 	// Update session variable used for counting subtotal in the shopping cart.
 	//$_SESSION["Discount"] = $discount;
@@ -150,12 +147,6 @@ function updateItem() {
 
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
-	$qry = "UPDATE ShopCartItem SET Quantity = ? WHERE ProductID = ? AND ShopCartID = ?";
-	$stmt = $conn->prepare($qry);
-	$stmt->bind_param("iii", $quantity, $pid, $cartid);
-	$stmt->execute();
-	$stmt->close();
-
 	// Update $_SESSION["NumCartItems"] when quantity is changed in shopper's active cart
 	$qry = "SELECT * FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
 	$stmt = $conn->prepare($qry);
@@ -163,16 +154,28 @@ function updateItem() {
 	$stmt->execute();
 	$result = $stmt->get_result();
 	$stmt->close();
-	$conn->close();
-
-	$row = $result->fetch_array();
-
-	if ($quantity > $row["Quantity"])
-		$_SESSION["NumCartItems"] -= $quantity;
-	else
-		$_SESSION["NumCartItems"] += $quantity;
-
 	
+	$row = $result->fetch_array();
+	if ($quantity < $row["Quantity"])
+	{
+		$_SESSION["NumCartItem"] -= $row["Quantity"] - $quantity;
+		$_SESSION["SubTotal"] -= $row["Price"] * ($row["Quantity"] - $quantity); 
+	}
+	else
+	{
+		$_SESSION["NumCartItem"] += $quantity - $row["Quantity"];
+		$_SESSION["SubTotal"] += $row["Price"] * ($quantity - $row["Quantity"]); 
+	}
+
+	$qry = "UPDATE ShopCartItem SET Quantity = ? WHERE ProductID = ? AND ShopCartID = ?";
+	$stmt = $conn->prepare($qry);
+	$stmt->bind_param("iii", $quantity, $pid, $cartid);
+	$stmt->execute();
+	$stmt->close();
+	$conn->close();
+	
+
+
 	header("Location: shoppingCart.php");
 	exit;
 }
@@ -209,8 +212,8 @@ function removeItem() {
 	$stmt->close();
 	$conn->close();
 
-	unset($_SESSION["NumCartItem"]);
-	unset($_SESSION["SubTotal"]);
+	// unset($_SESSION["NumCartItem"]);
+	// unset($_SESSION["SubTotal"]);
 
 	header ("Location: shoppingCart.php");
 }

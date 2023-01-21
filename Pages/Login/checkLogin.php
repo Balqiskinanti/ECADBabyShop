@@ -41,7 +41,11 @@ if ($result->num_rows > 0)
         $_SESSION["ShopperID"] = $row["ShopperID"];
 
         // Get active shopping cart
-        $qry = "SELECT sc.ShopCartID, COUNT(sci.ProductID) AS NumItems FROM ShopCart sc LEFT JOIN ShopCartItem sci ON sc.ShopCartID=sci.ShopCartID WHERE sc.ShopperID=? AND sc.OrderPlaced=0";
+        $qry = "SELECT sc.ShopCartID, SUM(sci.Quantity) as TotalQuantity 
+        FROM shopcartitem AS sci 
+        INNER JOIN shopcart AS sc ON sc.ShopCartID = sci.ShopCartID 
+        WHERE sc.ShopCartID = ? AND sc.OrderPlaced = 0 
+        GROUP BY sc.ShopCartID";
 
         $stmt = $conn->prepare($qry);
         $stmt -> bind_param("s", $_SESSION["ShopperID"]);
@@ -56,10 +60,10 @@ if ($result->num_rows > 0)
         {
             $row = $result->fetch_array();
 
-            if ($row["NumItems"] > 0)
+            if ($row["TotalQuantity"] > 0)
             {
                 $_SESSION["Cart"] = $row["ShopCartID"];
-                $_SESSION["NumCartItem"] = $row["NumItems"];
+                $_SESSION["NumCartItem"] = $row["TotalQuantity"];
             }
         }
 

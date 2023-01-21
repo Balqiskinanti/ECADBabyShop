@@ -24,18 +24,18 @@
         if (! isset($_SESSION["SubTotal"]))
         {
             $_SESSION["SubTotal"] = 0;
+            $formattedSubTotal = $_SESSION["SubTotal"];
         }
         else
         {
-            number_format($_SESSION["SubTotal"], 2);
-            round($_SESSION["SubTotal"], 2);
+            $formattedSubTotal = number_format($_SESSION["SubTotal"], 2);
         }
 
         $content1 = "
         <div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
             <ul class='navbar-nav'>
                 <li class='nav-item'>
-                    <a type='button' class='nav-link btn btn-outline-secondary' href='shoppingCart.php'>$_SESSION[NumCartItem] / $$_SESSION[SubTotal] <img src='../ECADBabyShop/Images/Login/shopping-bag.png' width='30' height='30'></a>
+                    <a type='button' class='nav-link btn btn-outline-secondary' href='shoppingCart.php'>$_SESSION[NumCartItem] / $$formattedSubTotal <img src='../ECADBabyShop/Images/Login/shopping-bag.png' width='30' height='30'></a>
                 </li>
                 <li class='nav-item dropdown'>
                     <a type='button' class='nav-link dropdown-toggle' id='navbarDropdown' data-toggle='dropdown' href='#'>$_SESSION[ShopperName] <img src='../ECADBabyShop/Images/Login/user.png' width='30' height='30'></a>
