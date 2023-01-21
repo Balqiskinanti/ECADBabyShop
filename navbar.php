@@ -40,7 +40,7 @@
                 <li class='nav-item dropdown'>
                     <a type='button' class='nav-link dropdown-toggle' id='navbarDropdown' data-toggle='dropdown' href='#'>$_SESSION[ShopperName] <img src='../ECADBabyShop/Images/Login/user.png' width='30' height='30'></a>
                     <div class='dropdown-menu' aria-labelledby='navbarDropdown'>
-                        <a class='dropdown-item' href='#' style='font-size:small!important;padding:.25rem .5rem!important;'>Change Password</a>
+                        <a class='dropdown-item' href='changePassword.php' style='font-size:small!important;padding:.25rem .5rem!important;'>Change Password</a>
                         <div class='dropdown-divider'></div>
                         <a class='dropdown-item' href='editProfile.php'style='font-size:small!important;padding:.25rem .5rem!important;'>Update Profile</a>
                         <div class='dropdown-divider'></div>
