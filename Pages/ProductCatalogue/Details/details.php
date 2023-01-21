@@ -86,7 +86,7 @@ while($row = $result->fetch_array()){
                         ' . $description . '
                     </p>
                     <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
-                    <input name="quantity" class="form-control ' . $disabled . '" style="background-color:white!important;" id="disabledInput" type="number" placeholder="0" min="0" max="10">
+                    <input name="quantity" class="form-control ' . $disabled . '" style="background-color:white!important;" id="disabledInput" type="number" min="1" max="10" value="1">
                     <button type="submit" class="nav-link btn btn-dark m-0 ' . $disabled .'" style="margin-top: 10px!important;" href="#">Add to Cart</button>
                 </div>
             </div>

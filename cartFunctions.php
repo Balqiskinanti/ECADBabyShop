@@ -84,7 +84,7 @@ function addItem() {
 		$_SESSION["NumCartItem"] = $quantity;
 	}
 
-	$qry = "SELECT *, CASE WHEN p.Offered = 1 THEN (p.Price - p.OfferedPrice) END AS Discount FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ? AND sci.ProductID = ?";
+	$qry = "SELECT *, CASE WHEN p.Offered = 1 THEN (p.Price - p.OfferedPrice) END AS Discount, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ? AND sci.ProductID = ?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $_SESSION["Cart"], $pid);
 	$stmt->execute();
@@ -98,8 +98,10 @@ function addItem() {
 
 	if ($isOfferStillOnGoing)
 	{
+		// To store discount to be used at checkout.
+		$_SESSION["Discount"] = $row["Discount"] * $row["sciQty"];
 		$basePrice = $row["Price"] - $row["Discount"];
-		$subTotal = $row["Quantity"] * $basePrice;
+		$subTotal = $row["sciQty"] * $basePrice;
 
 		if (isset($_SESSION["SubTotal"]))
 		{
@@ -112,8 +114,7 @@ function addItem() {
 	}
 	else
 	{
-		$subTotal = $row["Price"] * $row["Quantity"];
-		$_SESSION["Test2"] = $_SESSION["SubTotal"];
+		$subTotal = $row["Price"] * $row["sciQty"];
 
 		if (isset($_SESSION["SubTotal"]))
 		{
@@ -127,7 +128,7 @@ function addItem() {
 
 
 	// Update session variable used for counting subtotal in the shopping cart.
-
+	//$_SESSION["Discount"] = $discount;
 
 	$conn->close();
 	// Redirect shopper to shopping cart page
