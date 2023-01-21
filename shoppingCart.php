@@ -15,7 +15,7 @@ if (isset($_SESSION["Cart"])) {
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
 	// Retrieve from database and display shopping cart in a table
-	$qry = "SELECT *, CASE WHEN p.Offered = 1 THEN (p.OfferedPrice * sci.Quantity) ELSE (p.Price * sci.Quantity) END AS Total, sci.Quantity AS sciQty, p.Quantity AS pQty FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
+	$qry = "SELECT *, CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN (p.OfferedPrice * sci.Quantity) ELSE (p.Price * sci.Quantity) END AS Total, sci.Quantity AS sciQty, p.Quantity AS pQty FROM shopcartitem AS sci INNER JOIN product AS p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?;";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("i", $_SESSION["Cart"]);
 	$stmt->execute();
@@ -123,7 +123,6 @@ if (isset($_SESSION["Cart"])) {
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		echo "<button style = 'float:right;' class='invertBtn' >Checkout</button>";
 		echo "</form></p>";
-
 
 	}
 	else {

@@ -21,9 +21,7 @@ function addItem() {
 		header ("Location: login.php");
 		exit;
 	}
-	// TO DO 1
-	// Write code to implement: if a user clicks on "Add to Cart" button, insert/update the 
-	// database and also the session variable for counting number of items in shopping cart.
+
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 	// Check if a shopping cart exist, if not create a new shopping cart
 
@@ -115,6 +113,7 @@ function addItem() {
 	else
 	{
 		$subTotal = $row["Price"] * $row["Quantity"];
+		$_SESSION["Test2"] = $_SESSION["SubTotal"];
 
 		if (isset($_SESSION["SubTotal"]))
 		{
@@ -210,8 +209,8 @@ function removeItem() {
 	$stmt->close();
 	$conn->close();
 
-	// unset($_SESSION["NumCartItem"]);
-	// unset($_SESSION["SubTotal"]);
+	unset($_SESSION["NumCartItem"]);
+	unset($_SESSION["SubTotal"]);
 
 	header("Location: shoppingCart.php");
 }		
