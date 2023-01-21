@@ -46,11 +46,11 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
             </div>
             <div class="form-group row">
                 <div class="col-sm-5">
-                    <input type="radio" id="deliveryNormal" name="deliveryChoice" value="#" > <!-- required -->
+                    <input type="radio" id="deliveryNormal" name="deliveryChoice" value="5" > <!-- required -->
                     <label for="deliveryNormal" class="checkoutRadio">Normal Delivery (2 Days)</label>
                 </div>
                 <div class="col-sm-5">
-                    <input type="radio" id="deliveryExpress" name="deliveryChoice" value="#" > <!-- required -->
+                    <input type="radio" id="deliveryExpress" name="deliveryChoice" value="10" > <!-- required -->
                     <label for="deliveryExpress" class="checkoutRadio">Express Delivery (24 Hrs)</label>
                 </div>
             </div>

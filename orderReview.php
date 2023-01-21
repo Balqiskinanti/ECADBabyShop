@@ -8,7 +8,10 @@ include("header.php");
         <p>Here is the summary of order ID #1</p>
         <p>Purchased on: Date</p>
     </div>
-    
+    <?php
+    //echo $_SESSION["Tax"];
+    echo $_SESSION["ShipCharge"];
+    ?>
 </div>
 <?php
 include("footer.php"); // Include the Page Layout footer

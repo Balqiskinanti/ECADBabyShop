@@ -8,6 +8,9 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 	exit;
 }
 
+// Post data recieved from checkoutShipping.
+$_SESSION["ShippingInfo"] = array($_POST["shippingName"], $_POST["shippingTel"] , $_POST["shippingEmail"] , $_POST["shippingCountry"], $_POST["shippingAddress"], $_POST["deliveryChoice"], $_POST["billingName"], $_POST["billingTel"], $_POST["billingEmail"], $_POST["billingCountry"], $_POST["billingAddress"] );
+
 echo "<div class='container'>";
 echo "<h1>Shipping & Billing</h1> <br>";
 echo "<p>Shipping & Billing > <u>Review Order & Payment</u></p>";
@@ -72,6 +75,14 @@ if(isset($_SESSION["Cart"]))
 		echo "</form></p>";
 		echo"</div>";		
 		echo "</div>"; // End of responsive table
+
+		$arry = $_SESSION['ShippingInfo'];
+		echo "<p>";
+		for ($i = 0; $i < count($arry); $i++)
+		{
+			echo "<span>$arry[$i]</span> </br>";
+		}
+		echo "</p>";
 	}
 	else 
 	{

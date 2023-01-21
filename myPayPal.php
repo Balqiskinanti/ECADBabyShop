@@ -5,9 +5,9 @@ $PayPalApiPassword 	= '7L4DB8GVTE7KK49W'; 		//Paypal API password
 $PayPalApiSignature = 'A13wSS6W8MDQL77GRIL-d6cZ3vafA5j-NFvOSf7EXpnULn.mBrdt.92R'; 		//Paypal API Signature
 $PayPalCurrencyCode = 'SGD'; 	//Paypal Currency Code
 //URL to redirect to after PayPal has complete the online payment
-$PayPalReturnURL 	= 'http://localhost/ECADBabyShop/Pages/Checkout/checkoutProcess.php'; 
+$PayPalReturnURL 	= 'http://localhost/ECADBabyShop/orderReview.php'; 
 //URL to redirect to if user clicks cancel                
-$PayPalCancelURL 	= 'http://localhost/ECADBabyShop/shoppingCart.php'; // Rename once Jia Yong adds his page
+$PayPalCancelURL 	= 'http://localhost/ECADBabyShop/shoppingCart.php';
                 	
 function PPHttpPost($methodName_, $nvpStr_, $PayPalApiUsername, $PayPalApiPassword, 
                     $PayPalApiSignature, $PayPalMode) {
