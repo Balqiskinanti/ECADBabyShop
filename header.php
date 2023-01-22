@@ -26,6 +26,8 @@ $count = $result->fetch_array()[0];
     <link rel="shortcut icon" href="../../../ShortLogo.PNG" />
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="css/bootstrap.min.css">
+    <!-- Site JS -->
+    <script src="js/script.js"></script>
     <!-- jQuery -->
     <script src="js/jquery-3.3.1.min.js"></script>
     <!-- Bootstrap JS -->

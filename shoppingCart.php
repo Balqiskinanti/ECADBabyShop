@@ -26,7 +26,9 @@ if (isset($_SESSION["Cart"])) {
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
-		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
+		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p> <br>"; 
+		echo "<h3> Your Orders </h3> <br>";
+		echo "<p> You have <b>$_SESSION[NumCartItem] item(s)</b> in your shopping cart </p>";
 		echo "<div class='table-responsive' >"; // Bootstrap responsive table
 		echo "<table class='table table-hover table-sm'>"; // Start of table
 		echo "<thead class = 'cart-header'>"; // Start of table's header section
@@ -74,7 +76,10 @@ if (isset($_SESSION["Cart"])) {
 			}
 			echo "<div class='container' style='display:flex;padding-left:0px;'>";
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
-			echo "<select name = 'quantity' onChange = 'this.form.submit()'>";
+			echo "<input type = 'hidden' name = 'action' value = 'update' />";
+			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
+			echo "<input type='button' value='-' class='minus' onclick = 'MinusCaps();this.form.submit()'>";
+			echo "<select name = 'quantity' id = 'quantity' onChange = 'this.form.submit()'>";
 			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
 			{
 				if ($i == $row["sciQty"]) 
@@ -84,16 +89,16 @@ if (isset($_SESSION["Cart"])) {
 					$selected = "";
 				echo "<option value ='$i' $selected>$i</option>";
 			}
+			echo "<input type='button' value='+'' class='plus' onclick = 'PlusCaps();this.form.submit()'>";
 			echo "</select>";
 
-			echo "<input type = 'hidden' name = 'action' value = 'update' />";
-			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
+
 			echo "</form>";
 
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
 			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
-			echo "<button type = 'submit' style='border:none;background-color:white;'> | Delete </button>";
+			echo "<button type = 'submit' style='border:none;background-color:transparent;color:blue;'> | Delete </button>";
 			echo "</form>";
 
 			echo "</td>";
