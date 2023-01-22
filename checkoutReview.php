@@ -75,14 +75,6 @@ if(isset($_SESSION["Cart"]))
 		echo "</form></p>";
 		echo"</div>";		
 		echo "</div>"; // End of responsive table
-
-		$arry = $_SESSION['ShippingInfo'];
-		echo "<p>";
-		for ($i = 0; $i < count($arry); $i++)
-		{
-			echo "<span>$arry[$i]</span> </br>";
-		}
-		echo "</p>";
 	}
 	else 
 	{

@@ -7,6 +7,8 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 	header ("Location: login.php");
 	exit;
 }
+
+$_SESSION["Message"] = $_POST["cusMsg"];
 ?>
 <div class="container">
     <h1>Shipping & Billing</h1> <br>
