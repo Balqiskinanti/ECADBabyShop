@@ -28,7 +28,7 @@ if (isset($_SESSION["Cart"])) {
 		// the page header and header row of shopping cart page
 		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p>"; 
 		echo "<div class='table-responsive' >"; // Bootstrap responsive table
-		echo "<table class='table table-hover'>"; // Start of table
+		echo "<table class='table table-hover table-sm'>"; // Start of table
 		echo "<thead class = 'cart-header'>"; // Start of table's header section
 		echo "<tr>"; // Start of header row
 		echo "<th width = '150px'> </th>";
@@ -48,14 +48,13 @@ if (isset($_SESSION["Cart"])) {
 		echo "<tbody>"; // Start of table's body section
 		while ($row = $result->fetch_array()) 
 		{
-
 			$formattedPrice = number_format($row["Price"], 2);
 			$formattedTotalPrice = number_format($row["Total"], 2);
 
 			echo "<tr>";
 			echo "<td> </td>";
-			echo "<td> <img src='./Images/Products/$row[ProductImage]'> </td>";
-			echo "<td style='vertical-align: inherit'> <b>$row[Name] </b> 
+			echo "<td> <img src='./Images/Products/$row[ProductImage]' style='max-width:70%; max-height:70%;'> </td>";
+			echo "<td style='vertical-align: inherit'> <b style='font-size:calc(0.9rem + .3vw);'>$row[Name] </b> 
 			<br>";
 
 			$now = new DateTime('now');
@@ -121,9 +120,9 @@ if (isset($_SESSION["Cart"])) {
 		echo "</table>"; // End of table
 		echo "</div>"; // End of Bootstrap responsive table
 
-		
+
 		// Display the subtotal at the end of the shopping cart
-		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal: S$" . number_format($subTotal, 2);
+		echo "<p style = 'text-align:right; font-size: 20px; margin-right:30px;'> Subtotal: S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
 		if ($_SESSION["SubTotal"] >= 200)
@@ -132,7 +131,9 @@ if (isset($_SESSION["Cart"])) {
 			$_SESSION["isDeliveryFree"] = false;
 		
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
-		echo "<button style = 'float:right;' class='invertBtn' >Checkout</button>";
+		// Optional Custom Message
+		echo "<input type='text' id='cusMsg' name='cusMsg' style='width:25%; margin-left:30px;' placeholder='Optional Custom Message'>";
+		echo "<button style = 'float:right;width: calc(7.5rem + 5vw);margin-right:30px;border-radius: 5px;font-size: calc(0.5rem + .6vw);padding-top: 5px;padding-bottom: 5px;' class='invertBtn' >Checkout</button>";	
 		echo "</form></p>";
 
 	}
