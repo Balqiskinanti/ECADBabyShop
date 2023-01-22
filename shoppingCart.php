@@ -126,6 +126,10 @@ if (isset($_SESSION["Cart"])) {
 		echo "<p style = 'text-align:right; font-size: 20px'> Subtotal: S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
+		if ($_SESSION["SubTotal"] >= 200)
+			$_SESSION["isDeliveryFree"] = true;
+		else
+			$_SESSION["isDeliveryFree"] = false;
 		
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		echo "<button style = 'float:right;' class='invertBtn' >Checkout</button>";
