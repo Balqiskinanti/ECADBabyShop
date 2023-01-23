@@ -145,7 +145,7 @@ function updateItem() {
 	include_once("mySQLConn.php"); // Establish database connection handle: $conn
 
 	// Update $_SESSION["NumCartItems"] when quantity is changed in shopper's active cart
-	$qry = "SELECT * FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
+	$qry = "SELECT *, CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN p.OfferedPrice ELSE p.Price END AS Total, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ProductID = ? AND sci.ShopCartID = ?";
 	$stmt = $conn->prepare($qry);
 	$stmt->bind_param("ii", $pid, $cartid);
 	$stmt->execute();
@@ -153,15 +153,15 @@ function updateItem() {
 	$stmt->close();
 	
 	$row = $result->fetch_array();
-	if ($quantity < $row["Quantity"])
+	if ($quantity < $row["sciQty"])
 	{
-		$_SESSION["NumCartItem"] -= $row["Quantity"] - $quantity;
-		$_SESSION["SubTotal"] -= $row["Price"] * ($row["Quantity"] - $quantity); 
+		$_SESSION["NumCartItem"] -= $row["sciQty"] - $quantity;
+		$_SESSION["SubTotal"] -= $row["Total"] * ($row["sciQty"] - $quantity); 
 	}
 	else
 	{
-		$_SESSION["NumCartItem"] += $quantity - $row["Quantity"];
-		$_SESSION["SubTotal"] += $row["Price"] * ($quantity - $row["Quantity"]); 
+		$_SESSION["NumCartItem"] += $quantity - $row["sciQty"];
+		$_SESSION["SubTotal"] += $row["Total"] * ($quantity - $row["sciQty"]); 
 	}
 
 	// Check if shop cart's product quantity is 0 from the decrease button
