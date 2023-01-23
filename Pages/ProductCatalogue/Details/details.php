@@ -41,7 +41,7 @@ while($row = $result->fetch_array()){
     FROM productspec ps
     INNER JOIN specification s ON ps.SpecID=s.SpecID
     WHERE ps.ProductID=?
-    ORDER BY ps.priority DESC";
+    ORDER BY ps.priority ASC";
 
     $stmt = $conn->prepare($qry);
     $stmt->bind_param("i",$pid);
