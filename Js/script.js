@@ -6,6 +6,8 @@ function setNextValue(nextValue) {
 function PlusCaps() {
 	var nextValue = parseInt(document.getElementById("quantity").value) + 1;
     console.log(nextValue);
+    if (nextValue > 10)
+        nextValue = 10;
     setNextValue(nextValue);
 }
 
