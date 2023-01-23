@@ -135,7 +135,7 @@ function updateItem() {
 		header ("Location: login.php");
 		exit;
 	}
-	// TO DO 2
+
 	// Write code to implement: if a user clicks on "Update" button, update the database
 	// and also the session variable for counting number of items in shopping cart.
 	$cartid = $_SESSION["Cart"];
@@ -164,14 +164,25 @@ function updateItem() {
 		$_SESSION["SubTotal"] += $row["Price"] * ($quantity - $row["Quantity"]); 
 	}
 
-	$qry = "UPDATE ShopCartItem SET Quantity = ? WHERE ProductID = ? AND ShopCartID = ?";
-	$stmt = $conn->prepare($qry);
-	$stmt->bind_param("iii", $quantity, $pid, $cartid);
-	$stmt->execute();
-	$stmt->close();
-	$conn->close();
-	
-
+	// Check if shop cart's product quantity is 0 from the decrease button
+	if ($quantity == 0)
+	{
+		$qry = "DELETE FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
+		$stmt = $conn->prepare($qry);
+		$stmt->bind_param("ii", $pid, $cartid);
+		$stmt->execute();
+		$stmt->close();
+		$conn->close();
+	}
+	else
+	{
+		$qry = "UPDATE ShopCartItem SET Quantity = ? WHERE ProductID = ? AND ShopCartID = ?";
+		$stmt = $conn->prepare($qry);
+		$stmt->bind_param("iii", $quantity, $pid, $cartid);
+		$stmt->execute();
+		$stmt->close();
+		$conn->close();
+	}
 
 	header("Location: shoppingCart.php");
 	exit;
