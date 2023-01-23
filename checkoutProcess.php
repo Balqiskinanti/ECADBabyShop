@@ -59,27 +59,16 @@ while($row = $result->fetch_array())
 $qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
 $result = $conn->query($qry);
 $row = mysqli_fetch_assoc($result);
-$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $_SESSION['Discount']),2);
+$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
 
 // Compute Shipping Charge
-// Get Bool from JY to set ship charge to 0
-if ($_SESSION["SubTotal"] >= 200)
-{
-	$_SESSION["ShipCharge"] = 0;
-}
-else
-{
-	$_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][5];
-}
+$_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][5];
 
-
-// Code to check calculations 
-echo "Tax: ".$_SESSION["Tax"]."</br>";
-echo "Discount: ".$_SESSION["Discount"]."</br>";
-echo "SubTotal: ".$_SESSION["SubTotal"]."</br>";
-echo "Base Subtotal: ".$_SESSION['SubTotal'] + $_SESSION['Discount']."</br>";
-echo "Total: ".$_SESSION['SubTotal'] + $_SESSION['ShipCharge'] + $_SESSION['Tax']."</br>";
-
+// Display SubTotal, Tax, ShippingFee, Discount
+// echo "<p>SubTotal: $_SESSION[SubTotal]</p>";
+// echo "<p>Tax: $_SESSION[Tax]</p>";
+// echo "<p>ShippingFee: $_SESSION[ShipCharge]</p>";
+// echo "<p>Discount: $discount</p>";
 
 $paypal_data = '';
 foreach($_SESSION['Items'] as $key=>$item) {
@@ -116,7 +105,8 @@ $httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUser
                                     $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 
                      
-    
+$_SESSION["disc"] = $discount;
+
 //Respond according to message we receive from Paypal
 if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 {					
@@ -151,20 +141,19 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	
 	// Get all items from the shopping cart, concatenate to the variable $paypal_data
 	// $_SESSION['Items'] is an associative array
-    foreach($_SESSION['Items'] as $key=>$item) {
-        $paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
-        if($item["isOfferStillOnGoing"])
-        {
-            $paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["offeredPrice"]);
-        }
-        else
-        {
-            $paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
-        }
-        $paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
-        $paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
-    }
-    
+	foreach($_SESSION['Items'] as $key=>$item) {
+		$paypal_data .= '&L_PAYMENTREQUEST_0_QTY'.$key.'='.urlencode($item["quantity"]);
+		if($item["isOfferStillOnGoing"])
+		{
+			$paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["offeredPrice"]);
+		}
+		else
+		{
+			$paypal_data .= '&L_PAYMENTREQUEST_0_AMT'.$key.'='.urlencode($item["price"]);
+		}
+		$paypal_data .= '&L_PAYMENTREQUEST_0_NAME'.$key.'='.urlencode($item["name"]);
+		$paypal_data .= '&L_PAYMENTREQUEST_0_NUMBER'.$key.'='.urlencode($item["productId"]);
+	}
 	
 	//Data to be sent to PayPal
 	$padata = '&TOKEN='.urlencode($token).
@@ -189,8 +178,7 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 	if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
 	   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
 	{
-		// Update stock inventory in product table 
-		// after successful checkout
+		// Update stock inventory in product table after successful checkout
 		// SQL to get all the products in shopping cart.
 		// SQL to get product quantity in Shopping Cart
 		// SQL To remove the quantity purchased in shopping cart.
@@ -217,14 +205,13 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		}
 		
 	
-		// To Do 2: Update shopcart table, close the shopping cart (OrderPlaced=1)
-		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
-		$qry = "UPDATE shopcart SET OrderPlaced = 1, Quantity = ?, SubTotal = ?, Tax = ?, ShipCharge = ?, Discount = ?, Total = ?
+		//Update shopcart table, close the shopping cart (OrderPlaced=1)
+		$baseSubtotal = $_SESSION["SubTotal"] + $_SESSION["disc"] + $_SESSION["ShipCharge"];
+		$qry = "UPDATE shopcart SET OrderPlaced = 1, Quantity = ?, SubTotal = ?, ShipCharge = ?, Discount = ?,Tax = ?, Total = ?
 				WHERE ShopCartID = ?";
 		$stmt = $conn->prepare($qry);
-		$stmt->bind_param("iddddi", $_SESSION["NumCartItem"], 
-						   $_SESSION["SubTotal"], $_SESSION["Tax"],
-                           $_SESSION["ShipCharge"], $discount, $total,
+		$stmt->bind_param("idddddi", $_SESSION["NumCartItem"], $_SESSION["SubTotal"] ,$_SESSION["ShipCharge"],
+						   $_SESSION["disc"], $_SESSION["Tax"], $baseSubtotal,
 						   $_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
@@ -238,16 +225,18 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		                                   $PayPalApiUsername, $PayPalApiPassword, 
 										   $PayPalApiSignature, $PayPalMode);
 
-		if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
-        {
-
-            // $_SESSION["ShippingInfo"] = array($_POST["shippingName"], $_POST["shippingTel"] , $_POST["shippingEmail"] , $_POST["shippingCountry"], $_POST["shippingAddress"], $_POST["deliveryChoice"], $_POST["billingName"], $_POST["billingTel"], $_POST["billingEmail"], $_POST["billingCountry"], $_POST["billingAddress"] );
-
-            $shippingName = $_SESSION["ShippingInfo"][0];
-            $shippingTel = $_SESSION["ShippingInfo"][1];
-            $shippingEmail = $_SESSION["ShippingInfo"][2];
-            $shippingCountry = $_SESSION["ShippingInfo"][3];
-            $shippingAddress = $_SESSION["ShippingInfo"][4];
+		if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || 
+		   "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
+		   {
+			//gennerate order entry and feed back orderID information
+			//You may have more information for the generated order entry 
+			//if you set those information in the PayPal test accounts.
+            
+			$shippingName = $_SESSION["ShippingInfo"][0];
+			$shippingTel = $_SESSION["ShippingInfo"][1];
+			$shippingEmail = $_SESSION["ShippingInfo"][2];
+			$shippingCountry = $_SESSION["ShippingInfo"][3];
+			$shippingAddress = $_SESSION["ShippingInfo"][4];
 			if((int)$_SESSION["ShippingInfo"][5] == 5)
 			{
 				$deliveryChoice = "Normal";
@@ -258,21 +247,27 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				$deliveryChoice = "Express";
 				$deliveryDate = date ( 'Y-m-j' , strtotime ( '+1 day' ) );
 			}
-            $billingName = $_SESSION["ShippingInfo"][6];
-            $billingTel = $_SESSION["ShippingInfo"][7];
-            $billingEmail = $_SESSION["ShippingInfo"][8];
-            $billingCountry = $_SESSION["ShippingInfo"][9];
-            $billingAddress = $_SESSION["ShippingInfo"][10];
-			$deliveryDate = 0;
-			$msg = "Testing";
+			$billingName = $_SESSION["ShippingInfo"][6];
+			$billingTel = $_SESSION["ShippingInfo"][7];
+			$billingEmail = $_SESSION["ShippingInfo"][8];
+			$billingCountry = $_SESSION["ShippingInfo"][9];
+			$billingAddress = $_SESSION["ShippingInfo"][10];
+			if ($_SESSION["Message"] != null)
+			{
+				$msg = null;
+			}
+			else
+			{
+				$msg = $_SESSION["Message"];
+			}
 			
-            
+			
 			// Insert an Order record with shipping information
 			// Get the Order ID and save it in session variable.
-			$qry = "INSERT INTO `orderdata` (`ShopCartID`, `ShipName`, `ShipAddress`, `ShipCountry`, `ShipPhone`, `ShipEmail`, `BillName`, `BillAddress`, `BillCountry`, `BillPhone`, `BillEmail`, `DeliveryDate`, `DeliveryTime`, `DeliveryMode`, `Message`, `OrderStatus`, `DateOrdered`) 
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, NULL, ?, ?,'1', current_timestamp()";
+			$qry = "INSERT INTO `orderdata` (`ShopCartID`, `ShipName`, `ShipAddress`, `ShipCountry`, `ShipPhone`, `ShipEmail`, `BillName`, `BillAddress`, `BillCountry`, `BillPhone`, `BillEmail`, `DeliveryDate`, `DeliveryMode`, `Message`) 
+			VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$stmt = $conn->prepare($qry);
-			$stmt->bind_param("isssissssissss", $_SESSION["Cart"],$shippingName, $shippingTel, $shippingEmail, $shippingCountry, $deliveryChoice, $billingName, $billingTel, $billingCountry, $billingAddress, $deliveryDate, $deliveryChoice);
+			$stmt->bind_param("isssssssssssss", $_SESSION["Cart"], $shippingName, $shippingAddress, $shippingCountry, $shippingTel, $shippingEmail, $billingName, $billingAddress, $billingCountry, $billingTel, $billingEmail, $deliveryDate, $deliveryChoice, $msg);
 			$stmt->execute();
 			$stmt->close();
 
@@ -280,17 +275,18 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$result = $conn->query($qry);
 			$row = $result->fetch_array();
 			$_SESSION["OrderID"] = $row["OrderID"];
-
+			// End of To Do 3
 				
 			$conn->close();
 				  
-			//Reset the "Number of Items in Cart" session variable to zero.
+			// Reset the "Number of Items in Cart" session variable to zero.
 			$_SESSION["NumCartItem"] = 0;
+			$_SESSION["SubTotal"] = 0;
 	  		
 			//Clear the session variable that contains Shopping Cart ID.
 			unset($_SESSION["Cart"]);
 			
-			// To Do 4C: Redirect shopper to the order confirmed page.
+			// Redirect shopper to the order confirmed page.
 			header("Location: orderReview.php");
 			exit;
 		} 
@@ -307,6 +303,10 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		                urldecode($httpParsedResponseAr["L_LONGMESSAGE0"]).'</div>';
 		echo "<pre>".print_r($httpParsedResponseAr)."</pre>";
 	}
+}
+else
+{
+	$_SESSION["Error"] = "Token: ".$_GET["token"]."PayerID: ".$_GET["PayerID"];
 }
 
 //header ("Location: orderReview.php");
