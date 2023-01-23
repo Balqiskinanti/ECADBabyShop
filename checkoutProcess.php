@@ -275,7 +275,6 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$result = $conn->query($qry);
 			$row = $result->fetch_array();
 			$_SESSION["OrderID"] = $row["OrderID"];
-			// End of To Do 3
 				
 			$conn->close();
 				  
@@ -309,6 +308,5 @@ else
 	$_SESSION["Error"] = "Token: ".$_GET["token"]."PayerID: ".$_GET["PayerID"];
 }
 
-//header ("Location: orderReview.php");
 include("footer.php"); // Include the Page Layout footer
 ?>
