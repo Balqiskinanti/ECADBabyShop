@@ -39,6 +39,9 @@ if(isset($_POST["instock-select"])){
     if($_POST["instock-select"] == 1){
         $inStock = " AND p.Quantity > 0";
     }
+    else{
+        $inStock = " AND p.Quantity <= 0";
+    }
 }
 
 // min price value
