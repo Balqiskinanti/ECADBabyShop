@@ -25,25 +25,25 @@ $_SESSION["Message"] = $_POST["cusMsg"];
             </div>
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="shippingName" name="shippingName" placeholder="Shipping Name *" > <!-- required -->
+                    <input class="form-control" type="text" id="shippingName" name="shippingName" placeholder="Shipping Name *" maxlength="50" required> 
                 </div>
                 <div class="col-sm-4">
-                    <input class="form-control" type="text" id="shippingTel" name="shippingTel" placeholder="Shipping Phone Number">
+                    <input class="form-control" type="text" id="shippingTel" name="shippingTel" placeholder="Shipping Phone Number" maxlength="20">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingEmail" name="shippingEmail" placeholder="Shipping Email *" > <!-- required -->
+                    <input class="form-control" type="email" id="shippingEmail" name="shippingEmail" placeholder="Shipping Email *" maxlength="50" required> 
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingCountry" name="shippingCountry" placeholder="Shipping Country *" > <!-- required -->
+                    <input class="form-control" type="text" id="shippingCountry" name="shippingCountry" placeholder="Shipping Country *" maxlength="50" required> 
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingAddress" name="shippingAddress" placeholder="Shipping Address *" > <!-- required -->
+                    <input class="form-control" type="text" id="shippingAddress" name="shippingAddress" placeholder="Shipping Address *" maxlength="150" required> 
                 </div>
             </div>
             <div class="form-group row">
@@ -82,25 +82,25 @@ $_SESSION["Message"] = $_POST["cusMsg"];
             </div>
             <div class="form-group row">
                 <div class="col-sm-6">
-                    <input class="form-control" type="text" id="billingName" name="billingName" placeholder="Billing Name *" > <!-- required -->
+                    <input class="form-control" type="text" id="billingName" name="billingName" placeholder="Billing Name *" maxlength="50" required> 
                 </div>
                 <div class="col-sm-4">
-                    <input class="form-control" type="text" id="billingTel" name="billingTel" placeholder="Billing Phone Number">
+                    <input class="form-control" type="text" id="billingTel" name="billingTel" placeholder="Billing Phone Number" maxlength="20">
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingEmail" name="billingEmail" placeholder="Billing Email *" > <!-- required -->
+                    <input class="form-control" type="email" id="billingEmail" name="billingEmail" placeholder="Billing Email *" maxlength="50" required> 
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingCountry" name="billingCountry" placeholder="Billing Country *" > <!-- required -->
+                    <input class="form-control" type="text" id="billingCountry" name="billingCountry" placeholder="Billing Country *" maxlength="50" required>  
                 </div>
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingAddress" name="billingAddress" placeholder="Billing Address *" > <!-- required -->
+                    <input class="form-control" type="text" id="billingAddress" name="billingAddress" placeholder="Billing Address *" maxlength="150" required> 
                 </div>
             </div>
             <div class="form-group row">

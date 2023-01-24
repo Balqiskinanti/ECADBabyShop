@@ -139,7 +139,7 @@ if (isset($_SESSION["Cart"])) {
 		
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		// Optional Custom Message
-		echo "<input type='text' id='cusMsg' name='cusMsg' style='width:25%; margin-left:30px;' placeholder='Optional Custom Message'>";
+		echo "<input type='text' id='cusMsg' name='cusMsg' style='width:25%; margin-left:30px;' placeholder='Optional Custom Message' maxlength='255'>";
 		echo "<button style = 'float:right;width: calc(7.5rem + 5vw);margin-right:30px;border-radius: 5px;font-size: calc(0.5rem + .6vw);padding-top: 5px;padding-bottom: 5px;' class='invertBtn' >Checkout</button>";	
 		echo "</form></p>";
 
