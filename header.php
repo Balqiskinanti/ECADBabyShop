@@ -7,8 +7,7 @@ FROM product
 WHERE Offered = 1
 AND
 OfferStartDate <= now() AND
-OfferEndDate >= now() AND
-Quantity > 0
+OfferEndDate >= now()
 ";
 
 $result = $conn->query($qry);

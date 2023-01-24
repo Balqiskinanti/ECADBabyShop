@@ -10,8 +10,7 @@ INNER JOIN category c
 ON c.CategoryID = cp.CategoryID
 WHERE p.Offered = 1 AND
 p.OfferStartDate <= now() AND
-p.OfferEndDate >= now() AND
-p.Quantity > 0
+p.OfferEndDate >= now()
 ";
 
 $result = $conn->query($qry);
