@@ -121,7 +121,7 @@ while($row = $result->fetch_array()){
     ($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
     ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $price =  "$" . number_format($row["OfferedPrice"],2) : $price = "$" . number_format($row["Price"],2);
     ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $priceVal =  $row["OfferedPrice"] : $priceVal = $row["Price"];
-    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "$" . number_format($row["Price"],2) : $oldPrice = "";
+    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "<span class='price-before'>$" . number_format($row["Price"],2) . "</span><span style='background: #28a745; border-radius:30px;color:white;padding:1px 10px;width:100px;font-size:small;margin-left:20px'>On Offer!</span>" : $oldPrice = "";
 
     // indicators : offer & out of stock
     // if still offerred but out of stock, out of stock indicator will be shown
@@ -142,7 +142,7 @@ while($row = $result->fetch_array()){
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title"><b>'. $title .'</b></h4>
-                                <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
+                                <p class="card-text">' . $price . ' <span>' . $oldPrice . '</span></p>
                             </div>
                         </div>
                     </a>
@@ -160,7 +160,7 @@ while($row = $result->fetch_array()){
                                 </div>
                                 <div class="card-body">
                                     <h4 class="card-title"><b>'. $title .'</b></h4>
-                                    <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
+                                    <p class="card-text">' . $price . ' <span>' . $oldPrice . '</span></p>
                                 </div>
                             </div>
                         </a>
@@ -179,7 +179,7 @@ while($row = $result->fetch_array()){
                                 </div>
                                 <div class="card-body">
                                     <h4 class="card-title"><b>'. $title .'</b></h4>
-                                    <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
+                                    <p class="card-text">' . $price . ' <span>' . $oldPrice . '</span></p>
                                 </div>
                             </div>
                         </a>
@@ -199,7 +199,7 @@ while($row = $result->fetch_array()){
                             </div>
                             <div class="card-body">
                                 <h4 class="card-title"><b>'. $title .'</b></h4>
-                                <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
+                                <p class="card-text">' . $price . ' <span>' . $oldPrice . '</span></p>
                             </div>
                         </div>
                     </a>
@@ -217,7 +217,7 @@ while($row = $result->fetch_array()){
                         </div>
                         <div class="card-body">
                             <h4 class="card-title"><b>'. $title .'</b></h4>
-                            <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
+                            <p class="card-text">' . $price . ' <span>' . $oldPrice . '</span></p>
                         </div>
                     </div>
                 </a>
