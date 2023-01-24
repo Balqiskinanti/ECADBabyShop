@@ -17,6 +17,7 @@ $count = $result->fetch_array()[0];
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -38,14 +39,13 @@ $count = $result->fetch_array()[0];
     <!--Site's CSS-->
     <link rel="stylesheet" href="Css/site.css">
 </head>
+
 <body>
     <div>
         <div id="promotion-bar">
-            Hurry! <?php echo $count?> Promotions are on going. Grab items at discounted price*
+            Hurry! <?php echo $count ?> Promotions are on going. Grab items at discounted price*
         </div>
-    
+
         <div id="navigation-bar">
             <?php include("navbar.php"); ?>
         </div>
-
-            

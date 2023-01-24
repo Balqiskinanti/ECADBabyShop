@@ -1,18 +1,15 @@
-function setNextValue(nextValue) {
-    //localStorage.setItem("CapsNum", nextValue);
-    document.getElementById("quantity").value = nextValue;
-  }
-
-function PlusCaps() {
-	var nextValue = parseInt(document.getElementById("quantity").value) + 1;
-    console.log(nextValue);
-    if (nextValue > 10)
-        nextValue = 10;
-    setNextValue(nextValue);
+function increment() {
+    console.log("Plus");
+    let currentValue = parseInt(event.target.previousElementSibling.value);
+    if (currentValue < 10) {
+        event.target.previousElementSibling.value = currentValue + 1;
+    }
 }
 
-function MinusCaps() {
-    var nextValue = parseInt(document.getElementById("quantity").value) - 1;
-    console.log(nextValue);
-    setNextValue(nextValue);
+function decrement() {
+    console.log("Minus");
+    let currentValue = parseInt(event.target.nextElementSibling.value);
+    if (currentValue > 1) {
+        event.target.nextElementSibling.value = currentValue - 1;
+    }
 }

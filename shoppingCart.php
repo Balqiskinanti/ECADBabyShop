@@ -78,7 +78,8 @@ if (isset($_SESSION["Cart"])) {
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
 			echo "<input type = 'hidden' name = 'action' value = 'update' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
-			echo "<input type='button' value='-' class='minus' onclick = 'MinusCaps();this.form.submit()'>";
+			// echo "<input type='button' value='-' class='minus' onclick = 'MinusCaps();this.form.submit()'>";
+			echo "<input type='button' value='-' class='minus' onclick = 'decrement();this.form.submit()'>";
 			echo "<select name = 'quantity' id = 'quantity' onChange = 'this.form.submit()'>";
 			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
 			{
@@ -89,7 +90,8 @@ if (isset($_SESSION["Cart"])) {
 					$selected = "";
 				echo "<option value ='$i' $selected>$i</option>";
 			}
-			echo "<input type='button' value='+'' class='plus' onclick = 'PlusCaps();this.form.submit()'>";
+			// echo "<input type='button' value='+'' class='plus' onclick = 'PlusCaps();this.form.submit()'>";
+			echo "<input type='button' value='+'' class='plus' onclick = 'increment();this.form.submit()'>";
 			echo "</select>";
 
 
