@@ -26,7 +26,7 @@ while($row = $result->fetch_array()){
     $now = new DateTime('now');
     ($now->format('Y-m-d') >= $row["OfferStartDate"]  && $now->format('Y-m-d') <= $row["OfferEndDate"]) ? $isOfferStillOnGoing = true : $isOfferStillOnGoing = false;
     ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $price =  "$" . number_format($row["OfferedPrice"],2) : $price = "$" . number_format($row["Price"],2);
-    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "$" . number_format($row["Price"],2) : $oldPrice = "";
+    ($row["Offered"] == 1 && $isOfferStillOnGoing) ? $oldPrice =  "<span class='price-before'>$" . number_format($row["Price"],2) . "</span><span style='background: #28a745; border-radius:30px;color:white;padding:8px;width:100px;font-size:small;margin-left:20px'>On Offer!</span>" : $oldPrice = "";
 
     // indicators : offer & out of stock
     // if still offerred but out of stock, out of stock indicator will be shown
@@ -85,7 +85,7 @@ while($row = $result->fetch_array()){
                     <p style="font-size: small;">
                         ' . $description . '
                     </p>
-                    <p class="card-text">' . $price . ' <span class="price-before">' . $oldPrice . '</span></p>
+                    <p class="card-text">' . $price . ' <span>' . $oldPrice . '</span></p>
                     <input name="quantity" class="form-control ' . $disabled . '" style="background-color:white!important;" id="disabledInput" type="number" min="1" max="10" value="1">
                     <button type="submit" class="nav-link btn btn-dark m-0 ' . $disabled .'" style="margin-top: 10px!important;" href="#">Add to Cart</button>
                 </div>
