@@ -13,7 +13,7 @@
 
 <div id="promotion-list-title"><i class="fas fa-star checked"></i>
                 Feedbacks <i class="fas fa-star checked"></i>
-            </div>';
+            </div>
 <div class="owl-carousel owl-theme">
   <?php
     // Connect to database and retrieve reviews

@@ -93,14 +93,14 @@ function validateForm()
     <div class="form-group row">
         <label class="col-sm-3 col-form-label" for="pwdqn">Password Question:</label>
         <div class="col-sm-9">
-            <input class="form-control" name="pwdqn" id="pwdqn" type="text" />
+            <input class="form-control" name="pwdqn" id="pwdqn" type="text" required /> (required)
         </div>
     </div>
     <div class="form-group row">
         <label class="col-sm-3 col-form-label" for="answer">Answer:</label>
         <div class="col-sm-9">
             <textarea class="form-control" name="answer" id="answer"
-                      cols="25" rows="4" ></textarea>
+                      cols="25" rows="4" required></textarea> (required)
         </div>
     </div>
     <div class="form-group row">       
