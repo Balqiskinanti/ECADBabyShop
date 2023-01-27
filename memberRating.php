@@ -5,6 +5,15 @@ session_start();
 include("header.php"); 
 ?>
 
+<?php 
+    $shopperID = $_SESSION["ShopperID"];
+    $stmt = mysqli_prepare($conn, "SELECT Name FROM shopper where ShopperID=?");
+    mysqli_stmt_bind_param($stmt, "i", $shopperID);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $name);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+?>
 
 <div style="width:80%; margin:auto;">
 <form name="register" action="submit_feedback.php" method="post">
@@ -18,6 +27,13 @@ include("header.php");
         <div class="col-sm-9">
             <input class="form-control" name="shopperID" id="shopperID" 
                    type="text" readonly value="<?php if(isset($_SESSION['ShopperID'])) echo $_SESSION['ShopperID'];?>"/>
+        </div>
+    </div>
+    <div class="form-group row">
+        <label class="col-sm-3 col-form-label" for="name">Name:</label>
+        <div class="col-sm-9">
+            <input class="form-control" name="name" id="name" 
+                   type="text" readonly value="<?php echo $name; ?>"/>
         </div>
     </div>
     <div class="form-group row">

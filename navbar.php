@@ -44,6 +44,8 @@
                         <div class='dropdown-divider'></div>
                         <a class='dropdown-item' href='editProfile.php'style='font-size:small!important;padding:.25rem .5rem!important;'>Update Profile</a>
                         <div class='dropdown-divider'></div>
+                        <a class='dropdown-item' href='displayProfile.php'style='font-size:small!important;padding:.25rem .5rem!important;'>View Profile</a>
+                        <div class='dropdown-divider'></div>
                         <a class='dropdown-item' href='memberRating.php' style='font-size:small!important;padding:.25rem .5rem!important;'>Write Feedback ✍️</a>
                         <div class='dropdown-divider'></div>
                         <a class='dropdown-item' href='logout.php' style='font-size:small!important;padding:.25rem .5rem!important;'>Log Out</a>
