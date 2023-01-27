@@ -31,7 +31,7 @@ function validateForm()
 <form name="changePwd" method="post" onsubmit="return validateForm()">
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3" style="padding-top:30px">
-            <span class="page-title">Change Password</span>
+            <h3 class="mb-0">Change Password</h3>
         </div>
     </div>
     
@@ -53,7 +53,7 @@ function validateForm()
     </div>
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit" class='btn btn-dark'>Change Password</button>
+            <button type="submit" class='btn btn-dark' id="cta-btn">Change Password</button>
         </div>
     </div>
 </form>

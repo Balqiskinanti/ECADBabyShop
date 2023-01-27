@@ -19,7 +19,7 @@ include("header.php");
 <form name="register" action="submit_feedback.php" method="post">
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3" style="padding-top:30px">
-            <span class="page-title">Member's Feedback</span>
+        <h3 class="mb-0">Member's Feedback</h3>
         </div>
     </div>
     <div class="form-group row">
@@ -65,7 +65,7 @@ include("header.php");
     
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit" class='btn btn-dark'>Submit</button>
+            <button type="submit" class='btn btn-dark' id="cta-btn">Submit</button>
         </div>
     </div>
 </form>

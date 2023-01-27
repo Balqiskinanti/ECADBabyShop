@@ -32,7 +32,7 @@ include("header.php");
 <!-- 4th row - Login button -->
 <div class="form-group row" style="justify-content:center!important;">
     <div class="col-sm-4">
-        <button type='submit' class='btn btn-dark' style="margin:0!important; width:inherit;">Login</button>
+        <button type='submit' class='btn btn-dark' style="margin:0!important; width:inherit;" id="cta-btn">Login</button>
         <p style="margin:0!important;padding-top:10px;">Don't have an account? <a href="register.php">Sign up here.</a></p>
         <p><a href="forgetPassword.php">Forget Password</a></p>
     </div>

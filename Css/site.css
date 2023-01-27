@@ -290,6 +290,10 @@ body::-webkit-scrollbar-thumb {
 .owl-carousel {
     padding-top: 30px;
 }
+#btns:hover {
+background-color: antiquewhite;
+color: black;
+}
 
 /* Media queries */
 @media (max-width: 767.5px) {

@@ -28,7 +28,8 @@ if (! isset($_SESSION["ShopperID"])) {
 <form name="changePwd" method="post" onsubmit="return validateForm()">
     <div class="form-group row">
         <div class="col-sm-9 offset-sm-3" style="padding-top:30px">
-            <span class="page-title">Change Profile</span>
+           <!-- <span class="page-title">Change Profile</span> -->
+            <h3 class="mb-0">Update Profile</h3>
         </div>
     </div>
     <div class="form-group row">
@@ -68,7 +69,7 @@ if (! isset($_SESSION["ShopperID"])) {
 
     <div class="form-group row">       
         <div class="col-sm-9 offset-sm-3">
-            <button type="submit" class='btn btn-dark'>Update</button>
+            <button type="submit" class='btn btn-dark' id="cta-btn">Update</button>
         </div>
     </div>
 </form>
