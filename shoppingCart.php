@@ -26,12 +26,12 @@ if (isset($_SESSION["Cart"])) {
 	if ($result->num_rows > 0) {
 		// To Do 2 (Practical 4): Format and display 
 		// the page header and header row of shopping cart page
-		echo "<p class='page-title' style='text-align:center'>Shopping Cart</p> <br>"; 
-		echo "<h3> Your Orders </h3> <br>";
-		echo "<p> You have <b>$_SESSION[NumCartItem] item(s)</b> in your shopping cart </p>";
+		echo '<div id="brand-name">EBS</div><div id="promotion-list-title" style="padding-right:50px;">SHOPPING CART</div>'; 
+		echo "<h3 style='padding-left:30px;padding-top:50px;font-size:larger'> Your Orders </h3>";
+		echo "<p style='padding-left:30px;font-size:small'> You have <b>$_SESSION[NumCartItem] item(s)</b> in your shopping cart </p>";
 		echo "<div class='table-responsive' >"; // Bootstrap responsive table
-		echo "<table class='table table-hover table-sm'>"; // Start of table
-		echo "<thead class = 'cart-header'>"; // Start of table's header section
+		echo "<table class='table table-sm'>"; // Start of table
+		echo "<thead class = 'cart-header' style='display:none'>"; // Start of table's header section
 		echo "<tr>"; // Start of header row
 		echo "<th width = '150px'> </th>";
 		echo "<th width = '250px'> </th>";
@@ -54,8 +54,8 @@ if (isset($_SESSION["Cart"])) {
 			$formattedTotalPrice = number_format($row["Total"], 2);
 
 			echo "<tr>";
-			echo "<td> </td>";
-			echo "<td> <img src='./Images/Products/$row[ProductImage]' style='max-width:70%; max-height:70%;'> </td>";
+			echo "<td style='display:hidden'> </td>";
+			echo "<td style='width:300px'> <img src='./Images/Products/$row[ProductImage]' style='max-width:70%; max-height:70%;'> </td>";
 			echo "<td style='vertical-align: inherit'> <b style='font-size:calc(0.9rem + .3vw);'>$row[Name] </b> 
 			<br>";
 
@@ -74,13 +74,13 @@ if (isset($_SESSION["Cart"])) {
 				echo"<span class='card-text'>$$formattedPrice</span>
 				<br>";
 			}
-			echo "<div class='container' style='display:flex;padding-left:0px;'>";
+			echo "<div class='container' style='display:flex;padding-left:0px;margin-top:15px'>";
 			echo "<form action = 'cartFunctions.php' method = 'post'>";
 			echo "<input type = 'hidden' name = 'action' value = 'update' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
 			// echo "<input type='button' value='-' class='minus' onclick = 'MinusCaps();this.form.submit()'>";
-			echo "<input type='button' value='-' class='minus' onclick = 'decrement();this.form.submit()'>";
-			echo "<select name = 'quantity' id = 'quantity' onChange = 'this.form.submit()'>";
+			echo "<input type='button' value='-' class='minus' onclick = 'decrement();this.form.submit()' style='padding:8px'>";
+			echo "<select name = 'quantity' id = 'quantity' onChange = 'this.form.submit()' style='padding:8px'>";
 			for ($i = 1; $i <= 10; $i++) // To populate drop-down list from 1 to 10
 			{
 				if ($i == $row["sciQty"]) 
@@ -91,13 +91,13 @@ if (isset($_SESSION["Cart"])) {
 				echo "<option value ='$i' $selected>$i</option>";
 			}
 			// echo "<input type='button' value='+'' class='plus' onclick = 'PlusCaps();this.form.submit()'>";
-			echo "<input type='button' value='+'' class='plus' onclick = 'increment();this.form.submit()'>";
+			echo "<input type='button' value='+'' class='plus' onclick = 'increment();this.form.submit()' style='padding:8px'>";
 			echo "</select>";
 
 
 			echo "</form>";
 
-			echo "<form action = 'cartFunctions.php' method = 'post'>";
+			echo "<form action = 'cartFunctions.php' method = 'post' class='justify-content-center align-self-center'>";
 			echo "<input type = 'hidden' name = 'action' value = 'remove' />";
 			echo "<input type = 'hidden' name = 'product_id' value = '$row[ProductID]' />";
 			echo "<button type = 'submit' style='border:none;background-color:transparent;color:blue;'> | Delete </button>";
@@ -105,7 +105,7 @@ if (isset($_SESSION["Cart"])) {
 
 			echo "</td>";
 			echo "<td style='vertical-align: bottom'>";
-			echo "Total: <b>$$formattedTotalPrice</b>";
+			echo "<mark style='padding:10px'>Total: <b>$$formattedTotalPrice</b></mark>";
 			echo "</td>";
 			echo "</tr>";
 			echo "</div>";
@@ -129,7 +129,7 @@ if (isset($_SESSION["Cart"])) {
 
 
 		// Display the subtotal at the end of the shopping cart
-		echo "<p style = 'text-align:right; font-size: 20px; margin-right:30px;'> Subtotal: S$" . number_format($subTotal, 2);
+		echo "<p style = 'text-align:right; font-size: 20px; margin-right:30px; margin-top:30px'> Subtotal: S$" . number_format($subTotal, 2);
 		$_SESSION["SubTotal"] = round($subTotal, 2);
 
 		if ($_SESSION["SubTotal"] >= 200)
@@ -139,7 +139,7 @@ if (isset($_SESSION["Cart"])) {
 		
 		echo "<form method = 'post' action = 'checkoutShipping.php'>";
 		// Optional Custom Message
-		echo "<input type='text' id='cusMsg' name='cusMsg' style='width:25%; margin-left:30px;' placeholder='Optional Custom Message' maxlength='255'>";
+		echo "<input type='text' id='cusMsg' name='cusMsg' style='width:80%; margin-left:30px;height:40px' placeholder='Optional Custom Message' maxlength='255'>";
 		echo "<button style = 'float:right;width: calc(7.5rem + 5vw);margin-right:30px;border-radius: 5px;font-size: calc(0.5rem + .6vw);padding-top: 5px;padding-bottom: 5px;' class='invertBtn' >Checkout</button>";	
 		echo "</form></p>";
 
