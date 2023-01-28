@@ -35,11 +35,11 @@ while ($row = $result->fetch_array())
     echo "</div>"; // End of Shipping
     echo "<div class='col-sm-6'>"; // Billing Info Div
     echo "<h2>Billing</h2>";
-    echo "<p><b>Shipping Name: </b>$row[BillName]</p>";
-    echo "<p><b>Shipping Phone Number: </b>$row[BillPhone]</p>";
-    echo "<p><b>Shipping Email: </b>$row[BillEmail]</p>";
-    echo "<p><b>Shipping Country: </b>$row[BillCountry]</p>";
-    echo "<p><b>Shipping Address: </b>$row[BillAddress]</p>";
+    echo "<p><b>Billing Name: </b>$row[BillName]</p>";
+    echo "<p><b>Billing Phone Number: </b>$row[BillPhone]</p>";
+    echo "<p><b>Billing Email: </b>$row[BillEmail]</p>";
+    echo "<p><b>Billing Country: </b>$row[BillCountry]</p>";
+    echo "<p><b>Billing Address: </b>$row[BillAddress]</p>";
     echo "</div>"; // End of Billing
     echo "</div>"; // End of Div for Shipping + Billing
 }

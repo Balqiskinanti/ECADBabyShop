@@ -69,7 +69,32 @@ if(isset($_SESSION["Cart"]))
 		$subTotal = number_format($_SESSION["SubTotal"], 2);
 		echo "<div class='checkoutPayPal'>";
 
-		echo "<p class=''>Subtotal: $$subTotal</p>";
+		// Compute discount
+		$discount = 0;
+
+		$qry = "SELECT *, CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN (p.Price - p.OfferedPrice) END AS Discount, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?";
+		$stmt = $conn->prepare($qry);
+		$stmt->bind_param("i", $_SESSION["Cart"]);
+		$stmt->execute();
+		$result = $stmt->get_result();
+		$stmt->close();
+
+		while($row = $result->fetch_array()) 
+		{
+			$discount += $row["Discount"];
+		}
+		// Compute GST Rate
+		$qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
+		$result = $conn->query($qry);
+		$row = mysqli_fetch_assoc($result);
+		$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
+
+		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
+
+		echo "<p style='font-size:large; text-align:right;'>Subtotal: $$subTotal</p>";
+		echo "<p style='font-size:large; text-align:right;'>Tax($row[TaxRate]%): $$_SESSION[Tax]</p>";
+		echo "<p style='font-size:large; text-align:right;'>Shipping Fee: $$_POST[deliveryChoice]</p>";
+		echo "<p>Total: $$total</p>";
 		echo "<form method = 'post' action = 'checkoutProcess.php'>";
 		echo "<input type = 'image' style='width:100%' src = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";

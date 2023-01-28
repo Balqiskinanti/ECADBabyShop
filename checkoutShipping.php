@@ -62,11 +62,11 @@ $_SESSION["Message"] = $_POST["cusMsg"];
                 {
                     echo "<div class='col-sm-5'>";
                     echo "<input type='radio' id='deliveryNormal' name='deliveryChoice' value='5' disabled>";
-                    echo "<label for='deliveryNormal' class='checkoutRadio' disabled>Normal Delivery (2 Days)</label>";
+                    echo "<label for='deliveryNormal' class='checkoutRadio' disabled>Normal Delivery (2 Days, $5)</label>";
                     echo "</div>";
                     echo "<div class='col-sm-5'>";
                     echo "<input type='radio' id='deliveryExpress' name='deliveryChoice' value='0' checked='checked'>";
-                    echo "<label for='deliveryExpress' class='checkoutRadio'>Express Delivery (24 Hrs)</label>";
+                    echo "<label for='deliveryExpress' class='checkoutRadio'>Express Delivery (24 Hrs, $10)</label>";
                     echo "</div>";
                     echo "<h3 style='text-align:center; color:red;'> You are eligible for Free Shipping! </h3>";
                 }
@@ -74,11 +74,11 @@ $_SESSION["Message"] = $_POST["cusMsg"];
                 {
                     echo "<div class='col-sm-5'>";
                     echo "<input type='radio' id='deliveryNormal' name='deliveryChoice' value='5' checked='checked'>";
-                    echo "<label for='deliveryNormal' class='checkoutRadio'>Normal Delivery (2 Days)</label>";
+                    echo "<label for='deliveryNormal' class='checkoutRadio'>Normal Delivery (2 Days, $5)</label>";
                     echo "</div>";
                     echo "<div class='col-sm-5'>";
                     echo "<input type='radio' id='deliveryExpress' name='deliveryChoice' value='10'>";
-                    echo "<label for='deliveryExpress' class='checkoutRadio'>Express Delivery (24 Hrs)</label>";
+                    echo "<label for='deliveryExpress' class='checkoutRadio'>Express Delivery (24 Hrs, $10)</label>";
                     echo "</div>";
                 }
                 ?>

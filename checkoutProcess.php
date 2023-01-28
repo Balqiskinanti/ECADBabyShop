@@ -36,7 +36,7 @@ while ($row = $result->fetch_array()) {
 }
 if ($outOfStock == true)
 {
-    echo "Please return to shopping cart to amend your purchase.<br />";
+    echo "Please <a href='shoppingCart.php'><u>return to shopping cart</u></a> to amend your purchase.<br />";
     include("footer.php");
     exit;
 }	
@@ -57,10 +57,10 @@ while($row = $result->fetch_array())
 }
 
 // Compute GST Rate
-$qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
-$result = $conn->query($qry);
-$row = mysqli_fetch_assoc($result);
-$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
+// $qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
+// $result = $conn->query($qry);
+// $row = mysqli_fetch_assoc($result);
+// $_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
 
 // Compute Shipping Charge
 $_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][7];
