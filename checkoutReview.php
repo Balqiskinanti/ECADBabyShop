@@ -83,11 +83,17 @@ if(isset($_SESSION["Cart"]))
 		{
 			$discount += $row["Discount"];
 		}
+
+		$_SESSION["Discount"] = $discount;
+		
 		// Compute GST Rate
 		$qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
 		$result = $conn->query($qry);
 		$row = mysqli_fetch_assoc($result);
 		$_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
+
+		// Compute Shipping Charge
+		$_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][7];
 
 		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 
