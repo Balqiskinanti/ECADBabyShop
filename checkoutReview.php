@@ -67,7 +67,7 @@ if(isset($_SESSION["Cart"]))
 		
 
 		$subTotal = number_format($_SESSION["SubTotal"], 2);
-		echo "<div class='checkoutPayPal'>";
+		echo "<div class='checkoutPayPal col-sm-12'>";
 
 		// Compute discount
 		$discount = 0;
@@ -97,12 +97,12 @@ if(isset($_SESSION["Cart"]))
 
 		$total = $_SESSION["SubTotal"] + $_SESSION["Tax"] + $_SESSION["ShipCharge"];
 
-		echo "<p style='font-size:large; text-align:right;'>Subtotal: $$subTotal</p>";
-		echo "<p style='font-size:large; text-align:right;'>Tax($row[TaxRate]%): $$_SESSION[Tax]</p>";
-		echo "<p style='font-size:large; text-align:right;'>Shipping Fee: $$_POST[deliveryChoice]</p>";
-		echo "<p>Total: $$total</p>";
+		echo "<p style='font-size:16px'>Subtotal: $$subTotal</p>";
+		echo "<p style='font-size:16px'>Tax($row[TaxRate]%): $$_SESSION[Tax]</p>";
+		echo "<p style='font-size:16px'>Shipping Fee: $$_POST[deliveryChoice]</p>";
+		echo "<p style='font-size:22px'>Total: $$total</p>";
 		echo "<form method = 'post' action = 'checkoutProcess.php'>";
-		echo "<input type = 'image' style='width:100%' src = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
+		echo "<input type = 'image' src = 'https://www.paypal.com/en_US/i/btn/btn_xpressCheckout.gif'>";
 		echo "</form></p>";
 		echo"</div>";		
 		echo "</div>"; // End of responsive table
