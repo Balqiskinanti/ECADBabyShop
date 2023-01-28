@@ -9,7 +9,7 @@ if (! isset($_SESSION["ShopperID"])) { // Check if user logged in
 }
 
 // Post data recieved from checkoutShipping.
-$_SESSION["ShippingInfo"] = array($_POST["shippingName"], $_POST["shippingTel"] , $_POST["shippingEmail"] , $_POST["shippingCountry"], $_POST["shippingAddress"], $_POST["deliveryChoice"], $_POST["billingName"], $_POST["billingTel"], $_POST["billingEmail"], $_POST["billingCountry"], $_POST["billingAddress"] );
+$_SESSION["ShippingInfo"] = array($_POST["shippingName"], $_POST["shippingTel"] , $_POST["shippingEmail"] , $_POST["shippingCountry"], $_POST["shippingStreetAddress"], $_POST["shippingPostalCode"], $_POST["shippingCity"], $_POST["deliveryChoice"], $_POST["billingName"], $_POST["billingTel"], $_POST["billingEmail"], $_POST["billingCountry"], $_POST["billingStreetAddress"], $_POST["billingPostalCode"], $_POST["billingCity"] );
 
 echo "<div class='container'>";
 echo "<h1>Shipping & Billing</h1> <br>";

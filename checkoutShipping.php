@@ -43,7 +43,17 @@ $_SESSION["Message"] = $_POST["cusMsg"];
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="shippingAddress" name="shippingAddress" placeholder="Shipping Address *" maxlength="150" required> 
+                    <input class="form-control" type="text" id="shippingStreetAddress" name="shippingStreetAddress" placeholder="Shipping Street Address *" maxlength="150" required> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="shippingPostalCode" name="shippingPostalCode" placeholder="Shipping Postal Code *" maxlength="50" required> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="shippingCity" name="shippingCity" placeholder="Shipping City *" maxlength="150" required> 
                 </div>
             </div>
             <div class="form-group row">
@@ -100,7 +110,17 @@ $_SESSION["Message"] = $_POST["cusMsg"];
             </div>
             <div class="form-group row">
                 <div class="col-sm-10">
-                    <input class="form-control" type="text" id="billingAddress" name="billingAddress" placeholder="Billing Address *" maxlength="150" required> 
+                    <input class="form-control" type="text" id="billingStreetAddress" name="billingStreetAddress" placeholder="Billing Street Address *" maxlength="150" required> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="billingPostalCode" name="billingPostalCode" placeholder="Billing Postal Code *" maxlength="50" required> 
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="col-sm-10">
+                    <input class="form-control" type="text" id="billingCity" name="billingCity" placeholder="Billing City *" maxlength="150" required> 
                 </div>
             </div>
             <div class="form-group row">

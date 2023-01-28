@@ -4,7 +4,8 @@ session_start();
 include("header.php"); // Include the Page Layout header
 include_once("myPayPal.php"); // Include the file that contains PayPal settings
 include_once("mySQLConn.php"); 
-
+include_once("countryCodeConverter.php");
+use writecrow\CountryCodeConverter\CountryCodeConverter;
 
 // Shipping Info Data
 //$_SESSION["ShippingInfo"] = array($_POST["shippingName"], $_POST["shippingTel"] , $_POST["shippingEmail"] , $_POST["shippingCountry"], $_POST["shippingAddress"], $_POST["deliveryChoice"], $_POST["billingName"], $_POST["billingTel"], $_POST["billingEmail"], $_POST["billingCountry"], $_POST["billingAddress"] );
@@ -62,7 +63,7 @@ $row = mysqli_fetch_assoc($result);
 $_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
 
 // Compute Shipping Charge
-$_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][5];
+$_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][7];
 
 // Display SubTotal, Tax, ShippingFee, Discount
 // echo "<p>SubTotal: $_SESSION[SubTotal]</p>";
@@ -99,6 +100,17 @@ $padata = '&CURRENCYCODE='.urlencode($PayPalCurrencyCode).
             $paypal_data.				
             '&RETURNURL='.urlencode($PayPalReturnURL ).
             '&CANCELURL='.urlencode($PayPalCancelURL);
+
+// Set the shipping address
+$padata .=	'&ADDROVERRIDE=1';
+$padata .=	'&PAYMENTREQUEST_0_SHIPTONAME='.$_SESSION["ShippingInfo"][0];
+$padata .=	'&PAYMENTREQUEST_0_SHIPTOSTREET='.$_SESSION["ShippingInfo"][4];
+$padata .=	'&PAYMENTREQUEST_0_SHIPTOCITY='.$_SESSION["ShippingInfo"][6];
+//$padata .=	'&PAYMENTREQUEST_0_SHIPTOSTATE=CA';
+$countryCode = CountryCodeConverter::convert($_SESSION['ShippingInfo'][3], 'two-digit');
+$padata .=	'&PAYMENTREQUEST_0_SHIPTOCOUNTRYCODE='.$countryCode;
+$padata .=	'&PAYMENTREQUEST_0_SHIPTOZIP='.$_SESSION["ShippingInfo"][5];
+$padata .=	'&PAYMENTREQUEST_0_SHIPTOPHONENUM='.$_SESSION["ShippingInfo"][1];
 
 //We need to execute the "SetExpressCheckOut" method to obtain paypal token
 $httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUsername, 
@@ -237,7 +249,8 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 			$shippingEmail = $_SESSION["ShippingInfo"][2];
 			$shippingCountry = $_SESSION["ShippingInfo"][3];
 			$shippingAddress = $_SESSION["ShippingInfo"][4];
-			if((int)$_SESSION["ShippingInfo"][5] == 5)
+			$shippingAddress .= " ".$_SESSION["ShippingInfo"][6]." ".$_SESSION["ShippingInfo"][5];
+			if((int)$_SESSION["ShippingInfo"][7] == 5)
 			{
 				$deliveryChoice = "Normal";
 				$deliveryDate = date ( 'Y-m-j' , strtotime ( '+2 weekdays' ) );
@@ -247,11 +260,11 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 				$deliveryChoice = "Express";
 				$deliveryDate = date ( 'Y-m-j' , strtotime ( '+1 day' ) );
 			}
-			$billingName = $_SESSION["ShippingInfo"][6];
-			$billingTel = $_SESSION["ShippingInfo"][7];
-			$billingEmail = $_SESSION["ShippingInfo"][8];
-			$billingCountry = $_SESSION["ShippingInfo"][9];
-			$billingAddress = $_SESSION["ShippingInfo"][10];
+			$billingName = $_SESSION["ShippingInfo"][8];
+			$billingTel = $_SESSION["ShippingInfo"][9];
+			$billingEmail = $_SESSION["ShippingInfo"][10];
+			$billingCountry = $_SESSION["ShippingInfo"][11];
+			$billingAddress = $_SESSION["ShippingInfo"][12]." ".$_SESSION["ShippingInfo"][14]." ".$_SESSION["ShippingInfo"][13];
 			if ($_SESSION["Message"] != null)
 			{
 				$msg = null;
