@@ -42,19 +42,19 @@ if ($outOfStock == true)
 }	
 
 // Compute discount
-$discount = 0;
+// $discount = 0;
 
-$qry = "SELECT *, CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN (p.Price - p.OfferedPrice) END AS Discount, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?";
-$stmt = $conn->prepare($qry);
-$stmt->bind_param("i", $_SESSION["Cart"]);
-$stmt->execute();
-$result = $stmt->get_result();
-$stmt->close();
+// $qry = "SELECT *, CASE WHEN p.Offered = 1 AND (CURRENT_DATE>= p.OfferStartDate AND CURRENT_DATE <= p.OfferEndDate) THEN (p.Price - p.OfferedPrice) END AS Discount, p.Quantity AS pQty, sci.Quantity AS sciQty FROM ShopCartItem sci INNER JOIN Product p ON sci.ProductID = p.ProductID WHERE sci.ShopCartID = ?";
+// $stmt = $conn->prepare($qry);
+// $stmt->bind_param("i", $_SESSION["Cart"]);
+// $stmt->execute();
+// $result = $stmt->get_result();
+// $stmt->close();
 
-while($row = $result->fetch_array()) 
-{
-    $discount += $row["Discount"];
-}
+// while($row = $result->fetch_array()) 
+// {
+//     $discount += $row["Discount"];
+// }
 
 // Compute GST Rate
 // $qry = "SELECT * FROM `gst` WHERE CURRENT_DATE >= EffectiveDate ORDER BY EffectiveDate DESC LIMIT 1;";
@@ -63,7 +63,7 @@ while($row = $result->fetch_array())
 // $_SESSION["Tax"] = number_format(($row['TaxRate'] / 100) * ($_SESSION['SubTotal'] + $discount),2);
 
 // Compute Shipping Charge
-$_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][7];
+// $_SESSION["ShipCharge"] = (int)$_SESSION["ShippingInfo"][7];
 
 // Display SubTotal, Tax, ShippingFee, Discount
 // echo "<p>SubTotal: $_SESSION[SubTotal]</p>";
@@ -117,7 +117,7 @@ $httpParsedResponseAr = PPHttpPost('SetExpressCheckout', $padata, $PayPalApiUser
                                     $PayPalApiPassword, $PayPalApiSignature, $PayPalMode);
 
                      
-$_SESSION["disc"] = $discount;
+
 
 //Respond according to message we receive from Paypal
 if("SUCCESS" == strtoupper($httpParsedResponseAr["ACK"]) || "SUCCESSWITHWARNING" == strtoupper($httpParsedResponseAr["ACK"])) 
@@ -218,12 +218,12 @@ if(isset($_GET["token"]) && isset($_GET["PayerID"]))
 		
 	
 		//Update shopcart table, close the shopping cart (OrderPlaced=1)
-		$baseSubtotal = $_SESSION["SubTotal"] + $_SESSION["disc"] + $_SESSION["ShipCharge"];
+		$baseSubtotal = $_SESSION["SubTotal"] + $_SESSION["Discount"] + $_SESSION["ShipCharge"];
 		$qry = "UPDATE shopcart SET OrderPlaced = 1, Quantity = ?, SubTotal = ?, ShipCharge = ?, Discount = ?,Tax = ?, Total = ?
 				WHERE ShopCartID = ?";
 		$stmt = $conn->prepare($qry);
 		$stmt->bind_param("idddddi", $_SESSION["NumCartItem"], $_SESSION["SubTotal"] ,$_SESSION["ShipCharge"],
-						   $_SESSION["disc"], $_SESSION["Tax"], $baseSubtotal,
+						   $_SESSION["Discount"], $_SESSION["Tax"], $baseSubtotal,
 						   $_SESSION["Cart"]);
 		$stmt->execute();
 		$stmt->close();
