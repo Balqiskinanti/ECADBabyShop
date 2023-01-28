@@ -30,7 +30,7 @@ if(isset($_SESSION["Cart"]))
 	
 	if ($result->num_rows > 0) 
 	{
-		echo "<div class='table-responsive' >"; // Bootstrap responsive table
+		echo "<div class='table-xs-responsive' >"; // Bootstrap responsive table
 		echo "<table class='table table-hover'>"; // Start of table
 
 		foreach ($_SESSION["Items"] as $key => $value)
