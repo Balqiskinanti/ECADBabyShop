@@ -19,7 +19,7 @@
     // Connect to database and retrieve reviews
     include_once("mySQLConn.php");
 
-    $sql = "SELECT Subject, Content, Rank FROM feedback";
+    $sql = "SELECT feedback.Subject, feedback.Content, feedback.Rank, shopper.Name FROM feedback JOIN shopper ON feedback.ShopperID = shopper.ShopperID";
         $result = $conn->query($sql);
 
         if ($result->num_rows != 0) {
@@ -30,6 +30,15 @@
                     </div>
                     <div class="col-12">';
                 echo '<div class="review-item">';
+                echo '<div class="profile-icon">';
+                $pname = explode(" ", $row["Name"]);
+                $initials = "";
+                foreach($pname as $pn){
+                    $initials .= $pn[0];
+                }
+                echo '<p>'.$initials.'</p>';
+                echo '</div>';
+                echo '<span class="username">' . $row["Name"] . '</span>';
                 echo '<h3>' . $row["Subject"] . '</h3>';
                 echo '<p>' . $row["Content"] . '</p>';
                 //echo '<p>Rating:' . $row["Rank"] . '</p>';
@@ -38,6 +47,7 @@
                     echo '<i class="fas fa-star checked"></i>';
                 }
                 echo '</p>';
+
                 echo '</div>
                 </div>
                 </div>
