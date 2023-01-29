@@ -9,7 +9,8 @@ function increment() {
 function decrement() {
     console.log("Minus");
     let currentValue = parseInt(event.target.nextElementSibling.value);
-    if (currentValue > 1) {
+    if (currentValue > 0) {
         event.target.nextElementSibling.value = currentValue - 1;
     }
+    console.log(event.target.nextElementSibling.value);
 }

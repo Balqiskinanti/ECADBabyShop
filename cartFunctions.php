@@ -165,7 +165,7 @@ function updateItem() {
 	}
 
 	// Check if shop cart's product quantity is 0 from the decrease button
-	if ($quantity == 0)
+	if ($quantity == '')
 	{
 		$qry = "DELETE FROM ShopCartItem WHERE ProductID = ? AND ShopCartID = ?";
 		$stmt = $conn->prepare($qry);
