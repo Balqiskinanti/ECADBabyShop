@@ -61,7 +61,7 @@ include("header.php");
 echo $Message;
 include("footer.php");
 
-$stmt->close();
+//$stmt->close();
 $conn->close();
 
 
