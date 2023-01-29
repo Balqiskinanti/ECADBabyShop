@@ -1,13 +1,4 @@
 <?php
-    $shopperID = $_SESSION["ShopperID"];
-    $stmt = mysqli_prepare($conn, "SELECT Name, Address, Country, Phone, Email FROM shopper where ShopperID=?");
-    mysqli_stmt_bind_param($stmt, "i", $shopperID);
-    mysqli_stmt_execute($stmt);
-    mysqli_stmt_bind_result($stmt, $name, $address, $country, $phone, $email);
-    mysqli_stmt_fetch($stmt);
-    mysqli_stmt_close($stmt);
-?>
-<?php
     //  Navbar links 
     $content1 = "<div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
         <ul class='navbar-nav'>
@@ -39,6 +30,15 @@
         {
             $formattedSubTotal = number_format($_SESSION["SubTotal"], 2);
         }
+
+
+        $shopperID = $_SESSION["ShopperID"];
+        $stmt = mysqli_prepare($conn, "SELECT Name, Address, Country, Phone, Email FROM shopper where ShopperID=?");
+        mysqli_stmt_bind_param($stmt, "i", $shopperID);
+        mysqli_stmt_execute($stmt);
+        mysqli_stmt_bind_result($stmt, $name, $address, $country, $phone, $email);
+        mysqli_stmt_fetch($stmt);
+        mysqli_stmt_close($stmt);
 
         $content1 = "
         <div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
