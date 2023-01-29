@@ -66,7 +66,7 @@ if (isset($_SESSION["Cart"])) {
 			{
 				$formattedOfferPrice = number_format($row["OfferedPrice"], 2);
 				
-				echo"<span class='card-text'>$$formattedOfferPrice</span> <span class='price-before'>$$formattedPrice</span>
+				echo"<span class='card-text'>$$formattedOfferPrice</span> <span class='price-before'>$$formattedPrice</span> <span style='background: #28a745; border-radius:30px;color:white;padding:5px 10px;width:100px;font-size:small;margin-left:20px'>On Offer!</span>
 				<br>";
 			}
 			else
