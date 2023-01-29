@@ -8,7 +8,7 @@ include("header.php");
 function validateForm()
 {
     // Check if password matched
-    if (document.register.password.value != document.register.pasword2.value) {
+    if (document.register.password.value != document.register.password2.value) {
         alert("Passwords not matched!");
         return false;
 

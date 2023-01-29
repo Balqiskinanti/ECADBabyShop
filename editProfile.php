@@ -77,7 +77,7 @@ if (! isset($_SESSION["ShopperID"])) {
 <?php
 
 // Process after user click the submit button
-if (isset($_POST["pwd1"])) {
+if (isset($_POST["email"])) {
 	// To Do 2: Read new password entered by user
     $new_name = $_POST['name'];
     $new_addr = $_POST['address'];
@@ -99,10 +99,10 @@ if (isset($_POST["pwd1"])) {
     $stmt->close();
 
     if ($result1->num_rows === 0) {
-        $qry = "UPDATE Shopper SET Name=?,Address=?, Country=?, Phone=?, Email=?,  Password=? WHERE ShopperID=?";
+        $qry = "UPDATE Shopper SET Name=?,Address=?, Country=?, Phone=?, Email=? WHERE ShopperID=?";
         $stmt = $conn->prepare($qry);
         // "s" - string, "j" - integer
-        $stmt->bind_param("ssssssi",$new_name, $new_addr, $new_country, $new_hp, $new_email, $_SESSION["ShopperID"]);
+        $stmt->bind_param("sssssi",$new_name, $new_addr, $new_country, $new_hp, $new_email, $_SESSION["ShopperID"]);
         if ($stmt->execute()) {
         echo "<p>Your profile has been updated successfully.</p>";
         }

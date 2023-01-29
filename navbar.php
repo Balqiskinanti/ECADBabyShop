@@ -1,4 +1,13 @@
 <?php
+    $shopperID = $_SESSION["ShopperID"];
+    $stmt = mysqli_prepare($conn, "SELECT Name, Address, Country, Phone, Email FROM shopper where ShopperID=?");
+    mysqli_stmt_bind_param($stmt, "i", $shopperID);
+    mysqli_stmt_execute($stmt);
+    mysqli_stmt_bind_result($stmt, $name, $address, $country, $phone, $email);
+    mysqli_stmt_fetch($stmt);
+    mysqli_stmt_close($stmt);
+?>
+<?php
     //  Navbar links 
     $content1 = "<div class='collapse navbar-collapse justify-content-end' id='collapsibleNavbar'>
         <ul class='navbar-nav'>
@@ -38,7 +47,7 @@
                     <a type='button' class='nav-link btn btn-outline-secondary' href='shoppingCart.php'>$_SESSION[NumCartItem] / $$formattedSubTotal <img src='../ECADBabyShop/Images/Login/shopping-bag.png' width='30' height='30'></a>
                 </li>
                 <li class='nav-item dropdown'>
-                    <a type='button' class='nav-link dropdown-toggle' id='navbarDropdown' data-toggle='dropdown' href='#'>$_SESSION[ShopperName] <img src='../ECADBabyShop/Images/Login/user.png' width='30' height='30'></a>
+                    <a type='button' class='nav-link dropdown-toggle' id='navbarDropdown' data-toggle='dropdown' href='#'>$name <img src='../ECADBabyShop/Images/Login/user.png' width='30' height='30'></a>
                     <div class='dropdown-menu' aria-labelledby='navbarDropdown'>
                         <a class='dropdown-item' href='changePassword.php' style='font-size:small!important;padding:.25rem .5rem!important;'>Change Password</a>
                         <div class='dropdown-divider'></div>
