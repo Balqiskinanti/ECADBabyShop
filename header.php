@@ -6,8 +6,8 @@ $qry = "SELECT COUNT(*)
 FROM product 
 WHERE Offered = 1
 AND
-OfferStartDate <= now() AND
-OfferEndDate >= now()
+OfferStartDate <= current_date() AND
+OfferEndDate >= current_date()
 ";
 
 $result = $conn->query($qry);

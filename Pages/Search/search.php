@@ -26,10 +26,10 @@ $validOffer = ")";
 if(isset($_POST["offer-select"])){
     $offered = $_POST["offer-select"];
     if($_POST["offer-select"] == 1){
-        $validOffer = " AND now() >= p.OfferStartDate AND now() <= p.OfferEndDate)";
+        $validOffer = " AND current_date() >= p.OfferStartDate AND current_date() <= p.OfferEndDate)";
     }
     if($_POST["offer-select"] == 0){
-        $validOffer = " OR (p.Offered = 1 AND NOT( now() >= p.OfferStartDate AND now() <= p.OfferEndDate)))";
+        $validOffer = " OR (p.Offered = 1 AND NOT( current_date() >= p.OfferStartDate AND current_date() <= p.OfferEndDate)))";
     }
 }
 

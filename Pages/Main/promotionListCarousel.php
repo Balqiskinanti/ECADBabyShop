@@ -9,8 +9,8 @@ ON cp.ProductID=p.ProductID
 INNER JOIN category c
 ON c.CategoryID = cp.CategoryID
 WHERE p.Offered = 1 AND
-p.OfferStartDate <= now() AND
-p.OfferEndDate >= now()
+p.OfferStartDate <= current_date() AND
+p.OfferEndDate >= current_date()
 ";
 
 $result = $conn->query($qry);
